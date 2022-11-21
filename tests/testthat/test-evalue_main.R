@@ -11,7 +11,7 @@ UNITEST_evalue_main_methylkit <- function(){
   #### compute e-value and its adjustment ####
   result = metevalue.methylKit(example_tempfiles[1],
                                example_tempfiles[2], bheader = TRUE)
-  return(sprintf('%0.5f', result[1,"e_adjust"]));
+  return(sprintf('%0.5f', result[1,"e_value"]));
 }
 
 
@@ -31,9 +31,7 @@ UNITEST_evalue_main_biseq <- function(){
   return(sprintf('%0.5f', result[1,"e_adjust"]));
 }
 
-
-
 test_that("Metevalue works", {
-  expect_equal(UNITEST_evalue_main_methylkit(), "1.64872")
-  expect_equal(UNITEST_evalue_main_biseq(), "1.64872")
+  expect_equal(UNITEST_evalue_main_methylkit(), "18.74770")
+  expect_equal(UNITEST_evalue_main_biseq(), "28077.12788")
 })
