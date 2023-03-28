@@ -5,6 +5,29 @@ knitr::opts_chunk$set(
 )
 
 ## ----eval=FALSE---------------------------------------------------------------
+#  metevalue.[DMR](
+#    methyrate,                # Output file name of [DMR]
+#    [DMR].output,             # Output file name of [DMR] with e-value of each region
+#    adjust.methods = "BH",    # Adjust methods of e-value
+#    sep = "\t",               # seperator, default is the TAB key.
+#    bheader = FALSE           # A logical value indicating whether the [DMR].output file
+#                              # contains the names of the variables as its first line
+#  )
+
+## ----eval=FALSE---------------------------------------------------------------
+#  # Here  `[DMR]` coudle be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.
+#  method_in_use = "[DMR]"
+#  result = evalue_buildin_var_fmt_nm(
+#            methyrate,              # Data frame of the methylation rate
+#            DMR_evalue_output,      # Data frame of output data corresponding to the
+#                                    # "method" option
+#            method = method_in_use) # DMR: "metilene", "biseq", "DMRfinder" or "methylKit"
+#  result = list(a = result$a,
+#                b = result$b,
+#                a_b = evalue_buildin_sql(result$a, result$b, method = method_in_use))
+#  result = varevalue.metilene(result$a, result$b, result$a_b)
+
+## ----eval=FALSE---------------------------------------------------------------
 #  library(metevalue)
 #  
 #  ####Simulation Data ####
@@ -147,63 +170,4 @@ knitr::opts_chunk$set(
 #                a_b = evalue_buildin_sql(result$a, result$b, method="metilene"))
 #  result = varevalue.metilene(result$a, result$b, result$a_b)
 #  head(result)
-
-## ----evalue-------------------------------------------------------------------
-#### Initialization ####
-n_seeds = 100  # how many seeds to consider
-N = 10000      # the number of trials
-delta = -0.1   # the parameter of the alternative hypothesis
-# e_x are the e-values and iE are the cumulative e-values
-e_x = rep(0, N)
-# p_x are the p-values and FP are Fisher's overall p-values
-p_x = rep(0, N)
-iE_all   = matrix(1, nrow = N+1, ncol = n_seeds) # product
-uni_all  = iE_all                                # universal
-FP_all   = iE_all                                # Fisher
-F_VS_all = iE_all                                # Fisher-VS
-
-#### Calculation ####
-for(seed in 1:n_seeds){
-  set.seed(seed * 1e3 + 1)
-  x = rnorm(N) + delta
-  e_x = exp(delta * x - delta^2/2)
-  iE_all[, seed] = cumprod(c(1, e_x))
-  S = cumsum(x)
-  nn = 1:N
-  uni_all[-1,seed] = exp(S^2/2/nn) / sqrt(nn)
-  p_x = pnorm(x)
-  FF = -2 * cumsum(log(p_x))
-  FP_all[-1, seed] = exp(pchisq(FF, df=2*nn, lower.tail = F, log.p = T))
-  SELR_ = (FP_all[, seed] < exp(-1))
-  F_VS_all[ SELR_, seed] = 1/(-exp(1)*FP_all[ SELR_, seed]*log(FP_all[ SELR_, seed]))   
-}
-
-iE = apply(iE_all, 1, median)
-uni = apply(uni_all, 1, median)
-FP = apply(FP_all, 1, median)
-F_VS = apply(F_VS_all,1, median)
-
-#### Plot ####
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-
-sim_plots <- data.frame(
-  x = 1:(N+1),
-  product = iE,
-  universal = uni,
-  Fisher = 1/(FP),
-  FisherVS = F_VS
-) %>% 
-  gather(key = "Method", value = "E_value", -x) %>%
-  ggplot(aes(x = x, y = E_value)) + 
-  geom_line(aes(color = Method), size = 1) + 
-  scale_y_continuous(trans='log') +
-  theme_grey() +  # Default
-  theme(legend.position = "top") + 
-  scale_color_brewer(palette="Dark2") +
-  xlab("Numer of Observations") + 
-  ylab("e-Value")
-  
-print(sim_plots)
 

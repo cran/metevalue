@@ -1,8 +1,8 @@
 Package: metevalue
 Type: Package
 Title: E-Value in the Omics Data Association Studies
-Version: 0.1.13
-Date: 2022-11-21
+Version: 0.1.14
+Date: 2023-03-28
 Authors@R: c(person("Yifan", "Yang",  role = c("aut", "cre","cph"),
                     email = "yfyang.86@hotmail.com"),
             person("Xiaoqing", "Pan",  role = "aut"),
@@ -13,14 +13,15 @@ License: Apache License (>= 2)
 RoxygenNote: 7.2.1
 Depends: sqldf, psych, dplyr, R (>= 3.5.0)
 Encoding: UTF-8
-Suggests: rmarkdown, knitr, ggplot2, tidyr, testthat (>= 3.0.0)
+Suggests: rmarkdown, prettydoc, knitr, ggplot2, tidyr, testthat (>=
+        3.0.0)
 VignetteBuilder: knitr
 LazyData: true
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2022-11-21 04:11:52 UTC; yifanyang
 Author: Yifan Yang [aut, cre, cph],
   Xiaoqing Pan [aut],
   Haoyuan Liu [aut]
+Packaged: 2023-03-28 01:51:37 UTC; yifanyang
 Repository: CRAN
-Date/Publication: 2022-11-21 07:10:02 UTC
+Date/Publication: 2023-03-28 02:40:02 UTC
