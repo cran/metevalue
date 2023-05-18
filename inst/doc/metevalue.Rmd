@@ -33,7 +33,17 @@ knitr::opts_chunk$set(
 
 # Introductions
 
-In this package, we provide e-value for four DMR (differentially methylated region) detection tools (MethylKit, Metilene, BiSeq and DMRfinder) and general purpose. For `DMR` (`methylKit`, `biseq`, `DMRfinder` or `metilene`), the met-evalue calculation is conducted by the `metevalue.[DMR]` function.
+In this package, we provide e-value for four DMR (differentially methylated region) detection tools (MethylKit, Metilene, BiSeq and DMRfinder) and general purpose.
+
+-   MethylKit
+-   BiSeq
+-   DMRfinder
+-   Metilene
+-   General case
+-   RNAseq
+-   General purpose
+
+For `DMR` (`methylKit`, `biseq`, `DMRfinder` or `metilene`), the met-evalue calculation is conducted by the `metevalue.[DMR]` function.
 
 | DMR       | Method                | methyrate Example                   | Method.output Example          |
 |:-----------------|:-----------------|:-----------------|:-----------------|
@@ -64,11 +74,11 @@ metevalue.[DMR](
 )
 ```
 
-Here `[DMR]` could be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.
+Here `[DMR]` coudle be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.
 
 ## Call by R data frames
 
-We provide the `evalue_buildin_var_fmt_nm` and `varevalue.metilene` function to handle the general DMR e-value calculation in DNA methylation studies:
+We provide the `evalue_buildin_var_fmt_nm` and `varevalue.metilene` function to handle the general DMR e-value alculation in DNA methylation studiesc:
 
 ```{r eval=FALSE}
 # Here  `[DMR]` coudle be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.
@@ -281,6 +291,40 @@ result = list(a = result$a,
 result = varevalue.metilene(result$a, result$b, result$a_b)
 head(result)
 ```
+## General case for DNA methylation data
+
+In above examples, we have already provided examples to calculate E-values directly from DMR detection tools including BiSeq, DMRfinder, MethylKit and Metilene. 
+However, users may wonder how to calculate the E-values directly from CpG sites or other DMR detection tools not presented above.
+We then facilitate the purpose in the following example.
+
+
+-   `metilene.input`: the input file of `Metilene` containing methylation rates at each CpG site
+
+By changing the group name, start site and end site, function `varevalue.signle_general` can calculate e-value of any site or region using a general methylation rates data. Take `metilene.input` as example.
+
+```{r eval=FALSE}
+input <- read.table("metilene.input", header = T)
+e_value <- varevalue.signle_general(methyrate=input, group1_name='g1', group2_name='g2', chr='chr21', start=9439679, end=9439679)
+head(e_value)
+```
+
+## General case for RNA-seq data
+The framework of E-value calculation presented in this project is also able to be extended to other genomic data including RNA-seq. 
+Here is an example to introduce the E-value calculation in RNA-seq. 
+
+
+-   `desq_out`: the RNA data
+
+function `varevalue.signle_general` can provides e-values for each row of the normalized expression level of RNA-seq data.
+
+```{r eval=FALSE}
+input <- read.table("desq_out", header = T)
+data_e <- metevalue.RNA_general(input, group1_name='treated', group2_name='untreated')
+head(data_e)
+```
+
+
+
 
 # Misc
 
@@ -298,27 +342,12 @@ Demo data for different `metevalue.[DMR]` functions are listed in the section.
 |chr21 | 9853326| 0.7058824| 0.7591463| 0.8750000| 0.7493404|
 
 
-- chr: string Chromosome
-- pos: int Position
-- g1~g2: methylation rate data in groups, repeat 8 times. Notice that there are "NaN" within the feature columns.
-
-
 **methylKit.output Example**
 
 |chr| start|     end| strand | pvalue| qvalue|meth.diff|
 |:-----|-------:|-------:|:------|------:|------:|---------:|
 |chr21 | 9927001| 9928000|*      |      0|      0| -34.07557|
 |chr21 | 9944001| 9945000|*      |      0|      0| -40.19089|
-
-
-- chr: Chromosome
-- start: The positions of the start sites of the corresponding region
-- end: The positions of the end sites of the corresponding region
-- strand: Strand
-- pvalue: The adjusted p-value based on BH method in MWU-test
-- qvalue: cutoff for qvalue of differential methylation statistic
-- methyl.diff: The difference between the group means of methylation level
-
 
 ### Input Data Examples: BiSeq
 
@@ -330,30 +359,12 @@ Demo data for different `metevalue.[DMR]` functions are listed in the section.
 |chr1 | 870443| 0.8461538|  1| 0.7| NaN| NaN| 0.3750| 0.3225806| 0.2923077| 0.0512821| 0.2413793|
 
 
-- chr: Chromosome
-- pos: int Position
-- g1~g2: methylation rate data in groups
-
-
 **biseq.output Example**
 
 |seqnames |  start|    end| width|strand |  median.p| median.meth.group1| median.meth.group2| median.meth.diff|
 |:--------|------:|------:|-----:|:------|---------:|------------------:|------------------:|----------------:|
 |chr1     | 872369| 872616|   248|*      | 0.0753559|          0.9385462|          0.8666990|        0.0710524|
 |chr1     | 875227| 875470|   244|*      | 0.0000026|          0.5136315|          0.1991452|        0.2942668|
-
-
-- seqnames: Chromosome
-- start: The positions of the start sites of the corresponding region
-- end: The positions of the end sites of the corresponding region
-- width: The range of the corresponding region
-- strand: Strand
-- median.p: The median of p-values in the corresponding region
-- median.meth.group1 : The median of methylation level for the corresponding segment of group 1
-- median.meth.group2 : The median of methylation level for the corresponding segment of group 2
-- median.meth.diff: The median of the difference between the methylation level
-
-
 
 ### Input Data Examples: DMRfinder
 
@@ -364,43 +375,21 @@ Demo data for different `metevalue.[DMR]` functions are listed in the section.
 |chr1 | 202833315|  0| 0.0000000|  0|    0|
 |chr1 | 202833323|  1| 0.8095238|  1|    1|
 
-
-- chr: Chromosome
-- pos: int Position
-- g1~g2: methylation rate data in groups
-
 **DMRfinder.output Example**
 
-|chr   |    start|      end| CpG| Control.mu|  Exptl.mu| Control.Exptl.diff| Control.Exptl.pval|
+|chr   |    start|      end| CpG| Control.mu|  Exptl.mu| Control..Exptl.diff| Control..Exptl.pval|
 |:-----|--------:|--------:|---:|----------:|---------:|-------------------:|-------------------:|
 |chr8  | 25164078| 25164102|   3|  0.9241646| 0.7803819|          -0.1437827|           0.0333849|
 |chr21 |  9437432|  9437538|  14|  0.7216685| 0.1215506|          -0.6001179|           0.0000000|
 
+### Input Data Examples: metilene
 
-- chr: Chromosome
-- start: The positions of the start sites of the corresponding region
-- end: The positions of the end sites of the corresponding region
-- CpG: The number of CpG sites within the corresponding region
-- Control.mu: The average methylation rate in control group
-- Expt1.mu: The average methylation rate in experiment group
-- Control.Expt1.diff: The methylation difference between control and experiment groups
-- Control.Expt1.pval: P-value based on Wald-test
+**metilene.input Example**
 
-
-### Input Data Examples: DMRfinder
-
-**methyrate Example**
-
-|chrom |     pos|        g1| g1.1|      g1.2| g1.3| g1.4|      g1.5| g1.6|      g1.7|        g2| g2.1| g2.2| g2.3|      g2.4| g2.5| g2.6| g2.7|
+|chr |     pos|        g1| g1.1|      g1.2| g1.3| g1.4|      g1.5| g1.6|      g1.7|        g2| g2.1| g2.2| g2.3|      g2.4| g2.5| g2.6| g2.7|
 |:-----|-------:|---------:|----:|---------:|----:|----:|---------:|----:|---------:|---------:|----:|----:|----:|---------:|----:|----:|----:|
 |chr21 | 9437433| 0.9285714|   NA| 0.7222222| 0.75|    1| 0.6666667|    1| 0.8695652| 0.0000000|    0|    0|    0| 0.0000000|  0.0|   NA| 0.00|
 |chr21 | 9437445| 1.0000000|   NA| 0.9444444| 0.75|    1| 0.6666667|    0| 0.8695652| 0.6111111|    0|    0|    0| 0.7333333|  0.6|   NA| 0.75|
-
-
-- chr: Chromosome
-- pos: int Position
-- g1~g2: methylation rate data in groups
-
 
 **metilene.output Example**
 
@@ -409,13 +398,17 @@ Demo data for different `metevalue.[DMR]` functions are listed in the section.
 |chr21 | 9437432| 9437540|  0| 0.610989| 26|  0|  0| 0.73705| 0.12606|
 |chr21 | 9708982| 9709189|  0| 0.475630| 28|  0|  0| 0.58862| 0.11299|
 
-- chr: Chromosome
-- start: The positions of the start sites of the corresponding region
-- end: The positions of the end sites of the corresponding region
-- q-value: The adjusted p-value based on BH method in MWU-test
-- methyl.diff: The difference between the group means of methylation level
-- CpGs: The number of CpG sites within the corresponding region
-- p : p-value based on MWU-test
-- p2: p-value based on 2D KS-test
-- m1: The absolute mean methylation level for the corresponding segment of group 1
-- m2: The absolute mean methylation level for the corresponding segment of group 2
+### Input Data Examples: RNAseq
+
+**desq_out Example**
+
+| treated1fb| treated2fb| treated3fb| untreated1fb| untreated2fb| untreated3fb| untreated4fb|
+|:----------|:----------|:----------|:------------|:------------|:------------|:------------|
+|   4.449648|   4.750104|   4.431634|     4.392285|     4.497514|     4.762213|     4.533928|
+|   6.090031|   5.973211|   5.913239|     6.238684|     6.050743|     5.932738|     6.022005|
+
+
+# Other Demos
+
+Please vist the [metevalue-emo](https://github.com/yfyang86/metevalue-demos/tree/main/simulation) project for more demos.
+

@@ -13,7 +13,7 @@ metevalue.methylKit(
 )
 }
 \arguments{
-\item{methyrate}{is the output file of methylKit, the columns are (in order):
+\item{methyrate}{is the data of methylation rates of each sites and group, the columns are (in order):
     - chr: Chromosome
 
     - pos: int Position
@@ -73,13 +73,13 @@ Perform the Evaluation for the BiSeq data.
 #### methylKit example ####
 data(demo_methylkit_methyrate)
 data(demo_methylkit_met_all)
-example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-tempdir()
-write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-      bheader = TRUE)
-str(result)
+# example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+# tempdir()
+# write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+#       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+# write.table (demo_methylkit_met_all, file=example_tempfiles[2],
+#       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+# result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
+#       bheader = TRUE)
+# str(result)
 }

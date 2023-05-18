@@ -147,7 +147,17 @@ p {
 </style>
 <div id="introductions" class="section level1">
 <h1>Introductions</h1>
-<p>In this package, we provide e-value for four DMR (differentially methylated region) detection tools (MethylKit, Metilene, BiSeq and DMRfinder) and general purpose. For <code>DMR</code> (<code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>), the met-evalue calculation is conducted by the <code>metevalue.[DMR]</code> function.</p>
+<p>In this package, we provide e-value for four DMR (differentially methylated region) detection tools (MethylKit, Metilene, BiSeq and DMRfinder) and general purpose.</p>
+<ul>
+<li>MethylKit</li>
+<li>BiSeq</li>
+<li>DMRfinder</li>
+<li>Metilene</li>
+<li>General case</li>
+<li>RNAseq</li>
+<li>General purpose</li>
+</ul>
+<p>For <code>DMR</code> (<code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>), the met-evalue calculation is conducted by the <code>metevalue.[DMR]</code> function.</p>
 <table>
 <colgroup>
 <col width="25%" />
@@ -207,11 +217,11 @@ p {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">bheader =</span> <span class="cn">FALSE</span>           <span class="co"># A logical value indicating whether the [DMR].output file</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                            <span class="co"># contains the names of the variables as its first line</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>Here <code>[DMR]</code> could be one of <code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>.</p>
+<p>Here <code>[DMR]</code> coudle be one of <code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>.</p>
 </div>
 <div id="call-by-r-data-frames" class="section level2">
 <h2>Call by R data frames</h2>
-<p>We provide the <code>evalue_buildin_var_fmt_nm</code> and <code>varevalue.metilene</code> function to handle the general DMR e-value calculation in DNA methylation studies:</p>
+<p>We provide the <code>evalue_buildin_var_fmt_nm</code> and <code>varevalue.metilene</code> function to handle the general DMR e-value alculation in DNA methylation studiesc:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here  `[DMR]` coudle be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>method_in_use <span class="ot">=</span> <span class="st">&quot;[DMR]&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(</span>
@@ -380,6 +390,28 @@ p {
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
 </div>
+<div id="general-case-for-dna-methylation-data" class="section level2">
+<h2>General case for DNA methylation data</h2>
+<p>In above examples, we have already provided examples to calculate E-values directly from DMR detection tools including BiSeq, DMRfinder, MethylKit and Metilene. However, users may wonder how to calculate the E-values directly from CpG sites or other DMR detection tools not presented above. We then facilitate the purpose in the following example.</p>
+<ul>
+<li><code>metilene.input</code>: the input file of <code>Metilene</code> containing methylation rates at each CpG site</li>
+</ul>
+<p>By changing the group name, start site and end site, function <code>varevalue.signle_general</code> can calculate e-value of any site or region using a general methylation rates data. Take <code>metilene.input</code> as example.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.input&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>e_value <span class="ot">&lt;-</span> <span class="fu">varevalue.signle_general</span>(<span class="at">methyrate=</span>input, <span class="at">group1_name=</span><span class="st">&#39;g1&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;g2&#39;</span>, <span class="at">chr=</span><span class="st">&#39;chr21&#39;</span>, <span class="at">start=</span><span class="dv">9439679</span>, <span class="at">end=</span><span class="dv">9439679</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(e_value)</span></code></pre></div>
+</div>
+<div id="general-case-for-rna-seq-data" class="section level2">
+<h2>General case for RNA-seq data</h2>
+<p>The framework of E-value calculation presented in this project is also able to be extended to other genomic data including RNA-seq. Here is an example to introduce the E-value calculation in RNA-seq.</p>
+<ul>
+<li><code>desq_out</code>: the RNA data</li>
+</ul>
+<p>function <code>varevalue.signle_general</code> can provides e-values for each row of the normalized expression level of RNA-seq data.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;desq_out&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>data_e <span class="ot">&lt;-</span> <span class="fu">metevalue.RNA_general</span>(input, <span class="at">group1_name=</span><span class="st">&#39;treated&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;untreated&#39;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_e)</span></code></pre></div>
+</div>
 </div>
 <div id="misc" class="section level1">
 <h1>Misc</h1>
@@ -419,11 +451,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: string Chromosome</li>
-<li>pos: int Position</li>
-<li>g1~g2: methylation rate data in groups, repeat 8 times. Notice that there are “NaN” within the feature columns.</li>
-</ul>
 <p><strong>methylKit.output Example</strong></p>
 <table>
 <thead>
@@ -458,15 +485,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>start: The positions of the start sites of the corresponding region</li>
-<li>end: The positions of the end sites of the corresponding region</li>
-<li>strand: Strand</li>
-<li>pvalue: The adjusted p-value based on BH method in MWU-test</li>
-<li>qvalue: cutoff for qvalue of differential methylation statistic</li>
-<li>methyl.diff: The difference between the group means of methylation level</li>
-</ul>
 </div>
 <div id="input-data-examples-biseq" class="section level3">
 <h3>Input Data Examples: BiSeq</h3>
@@ -519,11 +537,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>pos: int Position</li>
-<li>g1~g2: methylation rate data in groups</li>
-</ul>
 <p><strong>biseq.output Example</strong></p>
 <table>
 <colgroup>
@@ -575,17 +588,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>seqnames: Chromosome</li>
-<li>start: The positions of the start sites of the corresponding region</li>
-<li>end: The positions of the end sites of the corresponding region</li>
-<li>width: The range of the corresponding region</li>
-<li>strand: Strand</li>
-<li>median.p: The median of p-values in the corresponding region</li>
-<li>median.meth.group1 : The median of methylation level for the corresponding segment of group 1</li>
-<li>median.meth.group2 : The median of methylation level for the corresponding segment of group 2</li>
-<li>median.meth.diff: The median of the difference between the methylation level</li>
-</ul>
 </div>
 <div id="input-data-examples-dmrfinder" class="section level3">
 <h3>Input Data Examples: DMRfinder</h3>
@@ -620,11 +622,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>pos: int Position</li>
-<li>g1~g2: methylation rate data in groups</li>
-</ul>
 <p><strong>DMRfinder.output Example</strong></p>
 <table>
 <thead>
@@ -635,8 +632,8 @@ p {
 <th align="right">CpG</th>
 <th align="right">Control.mu</th>
 <th align="right">Exptl.mu</th>
-<th align="right">Control.Exptl.diff</th>
-<th align="right">Control.Exptl.pval</th>
+<th align="right">Control..Exptl.diff</th>
+<th align="right">Control..Exptl.pval</th>
 </tr>
 </thead>
 <tbody>
@@ -662,20 +659,10 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>start: The positions of the start sites of the corresponding region</li>
-<li>end: The positions of the end sites of the corresponding region</li>
-<li>CpG: The number of CpG sites within the corresponding region</li>
-<li>Control.mu: The average methylation rate in control group</li>
-<li>Expt1.mu: The average methylation rate in experiment group</li>
-<li>Control.Expt1.diff: The methylation difference between control and experiment groups</li>
-<li>Control.Expt1.pval: P-value based on Wald-test</li>
-</ul>
 </div>
-<div id="input-data-examples-dmrfinder-1" class="section level3">
-<h3>Input Data Examples: DMRfinder</h3>
-<p><strong>methyrate Example</strong></p>
+<div id="input-data-examples-metilene" class="section level3">
+<h3>Input Data Examples: metilene</h3>
+<p><strong>metilene.input Example</strong></p>
 <table style="width:100%;">
 <colgroup>
 <col width="4%" />
@@ -699,7 +686,7 @@ p {
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">chrom</th>
+<th align="left">chr</th>
 <th align="right">pos</th>
 <th align="right">g1</th>
 <th align="right">g1.1</th>
@@ -762,11 +749,6 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>pos: int Position</li>
-<li>g1~g2: methylation rate data in groups</li>
-</ul>
 <p><strong>metilene.output Example</strong></p>
 <table>
 <thead>
@@ -810,20 +792,58 @@ p {
 </tr>
 </tbody>
 </table>
-<ul>
-<li>chr: Chromosome</li>
-<li>start: The positions of the start sites of the corresponding region</li>
-<li>end: The positions of the end sites of the corresponding region</li>
-<li>q-value: The adjusted p-value based on BH method in MWU-test</li>
-<li>methyl.diff: The difference between the group means of methylation level</li>
-<li>CpGs: The number of CpG sites within the corresponding region</li>
-<li>p : p-value based on MWU-test</li>
-<li>p2: p-value based on 2D KS-test</li>
-<li>m1: The absolute mean methylation level for the corresponding segment of group 1</li>
-<li>m2: The absolute mean methylation level for the corresponding segment of group 2</li>
-</ul>
+</div>
+<div id="input-data-examples-rnaseq" class="section level3">
+<h3>Input Data Examples: RNAseq</h3>
+<p><strong>desq_out Example</strong></p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">treated1fb</th>
+<th align="left">treated2fb</th>
+<th align="left">treated3fb</th>
+<th align="left">untreated1fb</th>
+<th align="left">untreated2fb</th>
+<th align="left">untreated3fb</th>
+<th align="left">untreated4fb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">4.449648</td>
+<td align="left">4.750104</td>
+<td align="left">4.431634</td>
+<td align="left">4.392285</td>
+<td align="left">4.497514</td>
+<td align="left">4.762213</td>
+<td align="left">4.533928</td>
+</tr>
+<tr class="even">
+<td align="left">6.090031</td>
+<td align="left">5.973211</td>
+<td align="left">5.913239</td>
+<td align="left">6.238684</td>
+<td align="left">6.050743</td>
+<td align="left">5.932738</td>
+<td align="left">6.022005</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
+</div>
+<div id="other-demos" class="section level1">
+<h1>Other Demos</h1>
+<p>Please vist the <a href="https://github.com/yfyang86/metevalue-demos/tree/main/simulation">metevalue-emo</a> project for more demos.</p>
 </div>
 </section>
 

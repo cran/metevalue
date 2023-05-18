@@ -4,12 +4,19 @@
 \alias{varevalue.metilene}
 \title{Evalue of the Metilene data}
 \usage{
-varevalue.metilene(a, b, a_b, adjust.methods = "BH")
+varevalue.metilene(
+  a,
+  b,
+  a_b,
+  group1_name = "g1",
+  group2_name = "g2",
+  adjust.methods = "BH"
+)
 }
 \arguments{
 \item{a}{A data.frame object, the columns should be (in order):
 
-chrom    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
+chr    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
 
 i.e two key columns (chrom, pos) with several value columns in groups.}
 
@@ -36,6 +43,10 @@ i.e two key columns (chrom, pos) with several value columns in groups.}
     - m2:  The absolute mean methylation level for the corresponding segment of group 2}
 
 \item{a_b}{A data.frame object of a join b with particular data clean processes. Check the function [evalue.methylKit.chk()] for more details.}
+
+\item{group1_name}{charactor: The name of the first group. For example, "g1" in the above example.}
+
+\item{group2_name}{charactor: The name of the second group. For example, "g2" in the above example.}
 
 \item{adjust.methods}{is the adjust methods of e-value. It can be 'bonferroni', 'hochberg', 'holm', 'hommel', 'BH', 'BY'. The default value is 'BH'.}
 }
@@ -71,13 +82,13 @@ Perform the Evaluation for the Metilene data. The data file could be pre-handled
 #### methylKit example ####
 data(demo_methylkit_methyrate)
 data(demo_methylkit_met_all)
-example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-tempdir()
-write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-      bheader = TRUE)
-str(result)
+# example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+# tempdir()
+# write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+#       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+# write.table (demo_methylkit_met_all, file=example_tempfiles[2],
+#       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+# result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
+#       bheader = TRUE)
+# str(result)
 }
