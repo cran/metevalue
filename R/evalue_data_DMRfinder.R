@@ -1,7 +1,12 @@
-#' Evalue of the DMRfinder data format
+#' Calculate E-value of the DMRfinder data format
 #'
-#' Perform the Evaluation for the DMRfinder data.
-#' @param methyrate is the methyrate file.
+#' @param methyrate is the methyrate file. For example:
+#' \tabular{rrrrrrrr}{
+#' chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
+#' The columns are (in order):
+#' 
 #'     - chr: Chromosome
 #'
 #'     - pos: int Position
@@ -9,6 +14,7 @@
 #'     - g1~g2: methylation rate data in groups
 #'
 #' @param DMRfinder.output is the output file of DMRfinder.
+#'
 #'     - chr: Chromosome
 #'
 #'     - start: The positions of the start sites of the corresponding region
@@ -52,10 +58,19 @@
 #'     - m2:  The absolute mean methylation level for the corresponding segment of group 2
 #'
 #'     - e_value: The e-value of the corresponding region
+#'
 #' @examples
-#' #### DMRfinder example ####'
 #' data(demo_DMRfinder_rate_combine)
 #' data(demo_DMRfinder_DMRs)
+#' #example_tempfiles = tempfile(c("rate_combine", "DMRfinder_out"))
+#' #tempdir()
+#' #write.table(demo_DMRfinder_rate_combine, file=example_tempfiles[1],
+#' #      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table(demo_DMRfinder_DMRs, file=example_tempfiles[2],
+#' #      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #result = metevalue._DMRfinder(example_tempfiles[1], example_tempfiles[2],
+#' #      bheader = TRUE)
+#' #head(result)
 metevalue.DMRfinder <- function(methyrate, DMRfinder.output, adjust.methods='BH', sep = "\t", bheader = FALSE){
   re = metevalue.DMRfinder.chk (methyrate, DMRfinder.output, sep, bheader)
   return(varevalue.metilene(re$file_a, re$file_b, re$file_a_b, adjust.methods=adjust.methods));

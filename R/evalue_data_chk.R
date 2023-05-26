@@ -151,14 +151,18 @@ evalue_buildin_var_fmt_nm <- function(a, b, method="metilene"){
 
 
 #' Check the Metilene data format
-#' @param input_filename_a metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+#' @param input_filename_a metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns.
 #' For exampe:
+#' \tabular{rrrrrrrr}{
+#'  chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
+#' The columns are (in order):
+#' 
+#'      - chr and pos are keys;
 #'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
+#'      - g1~g2: methylation rate data in groups.
 #'
-#' chr and pos are keys;
-#' g1 g1 g2 g2 must be stored in pairs.
-
 #' @param input_filename_b  metilene input file path. This file should stored as a sep(e.g. TAB) separated file with two key columns and several value columns:
 #' The columns are (in order):
 #'
@@ -186,8 +190,16 @@ evalue_buildin_var_fmt_nm <- function(a, b, method="metilene"){
 #' @param bheader a logical value indicating whether the input_filename_b file contains the names of the variables as its first line. By default, bheader = FALSE.
 #' @return list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames corresponding to the input_filename_a, input_filename_b file and a A JOIN B file.
 #' @examples
-#' data("demo_metilene_out")
-#' data("demo_metilene_input")
+#' #data(demo_metilene_input)
+#' #data(demo_metilene_out)
+#' #example_tempfiles = tempfile(c("metilene_input", "metilene_out"))
+#' #tempdir()
+#' #write.table(demo_metilene_input, file=example_tempfiles[1],
+#' #      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table(demo_metilene_out, file=example_tempfiles[2],
+#' #      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #result = metevalue.metilene.chk(example_tempfiles[1], example_tempfiles[2],
+#' #      bheader = TRUE)
 metevalue.metilene.chk <- function(input_filename_a, input_filename_b, sep = "\t", bheader = FALSE){
 
     a <- read.table(input_filename_a, header=T, sep=sep)
@@ -200,14 +212,17 @@ return(list(file_a = re$a, file_b = re$b, file_a_b = evalue_buildin_sql(re$a, re
 }
 
 #' Check the BiSeq data format
-#' @param input_filename_a metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+#' @param input_filename_a metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns:
 #' For exampe:
+#' \tabular{rrrrrrrr}{
+#' chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
 #'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
+#'      - chr and pos are keys;
 #'
-#' chr and pos are keys;
-#' g1 g1 g2 g2 must be stored in pairs.
-
+#'      - g1~g2: methylation rate data in groups.
+#'
 #' @param input_filename_b  metilene input file path. This file should stored as a sep(e.g. TAB) separated file with two key columns and several value columns:
 #' The columns are (in order):
 #'
@@ -234,8 +249,18 @@ return(list(file_a = re$a, file_b = re$b, file_a_b = evalue_buildin_sql(re$a, re
 #' @param bheader a logical value indicating whether the input_filename_b file contains the names of the variables as its first line. By default, bheader = FALSE.
 #' @return list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames corresponding to the input_filename_a, input_filename_b file and a A JOIN B file.
 #' @examples
-#' data("demo_biseq_DMR")
-#' data("demo_biseq_methyrate")
+#' #data("demo_biseq_methyrate")
+#' #data("demo_biseq_DMR")
+#' #example_tempfiles = tempfile(c("demo_biseq_methyrate", "demo_biseq_DMR"))
+#' #tempdir()
+#' #write.table(demo_biseq_methyrate, file=example_tempfiles[1],row.names=FALSE,
+#' #            col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table(demo_biseq_DMR, file=example_tempfiles[2],
+#' #             sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #### compute e-value and its adjustment ####
+#' #result = metevalue.biseq.chk(example_tempfiles[1],
+#' #                         example_tempfiles[2], bheader = TRUE)
+
 metevalue.biseq.chk <- function(input_filename_a, input_filename_b, sep = "\t", bheader = FALSE){
   a <- read.table(input_filename_a, header=T, sep=sep)
   b <- read.table(input_filename_b, header=bheader, sep=sep)
@@ -244,13 +269,18 @@ metevalue.biseq.chk <- function(input_filename_a, input_filename_b, sep = "\t", 
 }
 
 #' Check the methylKit data format
-#' @param input_filename_a the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+#' @param input_filename_a the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns:
 #' For exampe:
 #'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
+#' \tabular{rrrrrrrr}{
+#' chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
 #'
-#' chr and pos are keys;
-#' g1 g1 g2 g2 must be stored in pairs.
+#'      - chr and pos are keys;
+#'
+#'      - g1~g2: methylation rate data in groups.
+#' 
 #' @param input_filename_b  the output file of methylKit. a methylDiff or methylDiffDB object containing the differential methylated locations satisfying the criteria.
 #' The columns are (in order):
 #'
@@ -272,9 +302,16 @@ metevalue.biseq.chk <- function(input_filename_a, input_filename_b, sep = "\t", 
 #' @param bheader a logical value indicating whether the input_filename_b file contains the names of the variables as its first line. By default, bheader = FALSE.
 #' @return list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames corresponding to the input_filename_a, input_filename_b file and a A JOIN B file.
 #' @examples
-#' #### methylKit example ####
 #' data(demo_methylkit_methyrate)
 #' data(demo_methylkit_met_all)
+#' ## example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+#' ## tempdir()
+#' ## write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+#' ##       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' ## write.table(demo_methylkit_met_all, file=example_tempfiles[2],
+#' ##       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' ## result = metevalue.methylKit.chk(example_tempfiles[1], example_tempfiles[2],
+#' ##       bheader = TRUE)
 metevalue.methylKit.chk <- function(input_filename_a, input_filename_b, sep = "\t", bheader = FALSE){
   a <- read.table(input_filename_a, header=T, sep=sep)
   b <- read.table(input_filename_b, header=bheader, sep=sep)
@@ -284,13 +321,19 @@ metevalue.methylKit.chk <- function(input_filename_a, input_filename_b, sep = "\
 
 
 #' Check the DMRfinder data format
-#' @param input_filename_a the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+#' @param input_filename_a the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns.
 #' For exampe:
 #'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
+#' \tabular{rrrrrrrr}{
+#' chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
 #'
-#' chr and pos are keys;
-#' g1 g1 g2 g2 must be stored in pairs.
+#' The columns are (in order):
+#' 
+#'      - chr and pos are keys;
+#' 
+#'      - g1~g2: methylation rate data in groups.
 
 #' @param input_filename_b  the output file of DMRfinder.
 #' The columns are (in order):
@@ -316,8 +359,16 @@ metevalue.methylKit.chk <- function(input_filename_a, input_filename_b, sep = "\
 #' @return list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames corresponding to the input_filename_a, input_filename_b file and a A JOIN B file.
 #'
 #' @examples
-#' data("demo_DMRfinder_rate_combine")
-#' data("demo_DMRfinder_DMRs")
+#' data(demo_DMRfinder_rate_combine)
+#' data(demo_DMRfinder_DMRs)
+#' #example_tempfiles = tempfile(c("rate_combine", "DMRfinder_out"))
+#' #tempdir()
+#' #write.table(demo_DMRfinder_rate_combine, file=example_tempfiles[1],
+#' #      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table(demo_DMRfinder_DMRs, file=example_tempfiles[2],
+#' #      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #result = metevalue.DMRfinder.chk(example_tempfiles[1], example_tempfiles[2],
+#' #      bheader = TRUE)
 metevalue.DMRfinder.chk <- function(input_filename_a, input_filename_b, sep = "\t", bheader = FALSE){
   a <- read.table(input_filename_a, header=T, sep=sep)
   b <- read.table(input_filename_b, header=bheader, sep=sep)

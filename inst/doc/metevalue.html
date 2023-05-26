@@ -153,9 +153,8 @@ p {
 <li>BiSeq</li>
 <li>DMRfinder</li>
 <li>Metilene</li>
-<li>General case</li>
-<li>RNAseq</li>
-<li>General purpose</li>
+<li>Other DNA methylation tools</li>
+<li>RNA-seq data</li>
 </ul>
 <p>For <code>DMR</code> (<code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>), the met-evalue calculation is conducted by the <code>metevalue.[DMR]</code> function.</p>
 <table>
@@ -169,8 +168,8 @@ p {
 <tr class="header">
 <th align="left">DMR</th>
 <th align="left">Method</th>
-<th align="left">methyrate Example</th>
-<th align="left">Method.output Example</th>
+<th align="left">Input.1 Example</th>
+<th align="left">Input.2 Example</th>
 </tr>
 </thead>
 <tbody>
@@ -198,30 +197,45 @@ p {
 <td align="left"><code>data(demo_metilene_input)</code></td>
 <td align="left"><code>data(demo_metilene_out)</code></td>
 </tr>
+<tr class="odd">
+<td align="left">Other DNA methylation tools</td>
+<td align="left"><code>varevalue.single_general</code></td>
+<td align="left"><code>data(demo_metilene_input)</code> or any data above</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">RNA-seq data</td>
+<td align="left"><code>metevalue.RNA_general</code></td>
+<td align="left"><code>data(demo_desq_out)</code></td>
+<td align="left"></td>
+</tr>
 </tbody>
 </table>
 <p>Two routines are supported to calculate the combined e-value:</p>
 <ul>
-<li>Call by <strong>files</strong>: Here the <code>files</code> include the outputs of given <code>DMR</code> packages and its corresponding e-value of each regions;</li>
+<li>Call by <strong>files</strong>: Here the <code>files</code> include the outputs of given <code>DMR</code> packages and its corresponding e-value of each region;</li>
 <li>Call by <strong>R data frames</strong>: Here the <code>R data frames</code> are corresponding <code>data.frame</code> objects.</li>
 </ul>
-<p>Details are as follows.</p>
+</div>
+<div id="other-demos" class="section level1">
+<h1>Other Demos</h1>
+<p>Please vist the <a href="https://github.com/yfyang86/metevalue-demos/tree/main/simulation">metevalue-emo</a> project for more demos.</p>
 <div id="call-by-files" class="section level2">
 <h2>Call by files</h2>
 <p>We design the <code>metevalue.[DMR]</code> function to accept similar parameter patterns:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>metevalue.[DMR](</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  methyrate,                <span class="co"># Output file name of [DMR]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  methyrate,                <span class="co"># methylation rates of each CpG site</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  [DMR].output,             <span class="co"># Output file name of [DMR] with e-value of each region</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust.methods =</span> <span class="st">&quot;BH&quot;</span>,    <span class="co"># Adjust methods of e-value</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,               <span class="co"># seperator, default is the TAB key.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,               <span class="co"># seperator, default is the TAB key</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">bheader =</span> <span class="cn">FALSE</span>           <span class="co"># A logical value indicating whether the [DMR].output file</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                            <span class="co"># contains the names of the variables as its first line</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p>Here <code>[DMR]</code> coudle be one of <code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>.</p>
+<p>Here <code>[DMR]</code> could be one of <code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code>.</p>
 </div>
 <div id="call-by-r-data-frames" class="section level2">
 <h2>Call by R data frames</h2>
-<p>We provide the <code>evalue_buildin_var_fmt_nm</code> and <code>varevalue.metilene</code> function to handle the general DMR e-value alculation in DNA methylation studiesc:</p>
+<p>We provide the <code>evalue_buildin_var_fmt_nm</code> and <code>varevalue.metilene</code> function to handle the general DMR e-value calculation in DNA methylation studies:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here  `[DMR]` coudle be one of `methylKit`, `biseq`, `DMRfinder` or `metilene`.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>method_in_use <span class="ot">=</span> <span class="st">&quot;[DMR]&quot;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(</span>
@@ -234,183 +248,212 @@ p {
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method =</span> method_in_use))</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span></code></pre></div>
 <p>Replace <code>[DMR]</code> to one of <code>methylKit</code>, <code>biseq</code>, <code>DMRfinder</code> or <code>metilene</code> accordingly.</p>
+<p>For <code>RNAseq</code> user, <code>metevalue.RNA_general</code> could be called directly. Example is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;demo_desq_out&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>evalue <span class="ot">=</span> <span class="fu">metevalue.RNA_general</span>(demo_desq_out, <span class="st">&#39;treated&#39;</span>,<span class="st">&#39;untreated&#39;</span>)</span></code></pre></div>
 <blockquote>
-<p>Notice: for different <code>[DMR]</code>, the <code>data.frame</code> schemas are <strong>different</strong>!!! Check the R help document for details. Check the <a href="#demo-data">Demo data</a> section for details. # Examples</p>
+<p>Notice: for different <code>[DMR]</code>, the <code>data.frame</code> schemas are <strong>different</strong>!!! Check the R help document for details. Check the <a href="#demo-data">Demo data</a> section for details.</p>
 </blockquote>
 </div>
-<div id="methylkit-example" class="section level2">
-<h2>MethylKit Example</h2>
-<p>methylKit is a R package for DNA methylation analysis and annotation from high-throughput bisulfite sequencing. The package is designed to deal with sequencing data from RRBS and its variants, but also target-capture methods and whole genome bisulfite sequencing.</p>
-<p>Currently, <code>metevalue</code> package supports the e-value analytics of the <code>methylKit</code> output file.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metevalue)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">####Simulation Data ####</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># methylKit is a Bioconductor package</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methylKit)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>file.list<span class="ot">=</span><span class="fu">list</span>( <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;test1.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;test2.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;control1.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;control2.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>) )</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># read the files to a methylRawList object: myobj</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>myobj<span class="ot">=</span><span class="fu">methRead</span>(file.list,</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">sample.id=</span><span class="fu">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">assembly=</span><span class="st">&quot;hg18&quot;</span>,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">treatment=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>               <span class="at">context=</span><span class="st">&quot;CpG&quot;</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>meth<span class="ot">=</span><span class="fu">unite</span>(myobj, <span class="at">destrand=</span><span class="cn">FALSE</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>meth.C <span class="ot">&lt;-</span> <span class="fu">getData</span>(meth)[,<span class="fu">seq</span>(<span class="dv">6</span>,<span class="fu">ncol</span>(meth),<span class="dv">3</span>)]</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>meth.T <span class="ot">&lt;-</span> <span class="fu">getData</span>(meth)[,<span class="fu">seq</span>(<span class="dv">7</span>,<span class="fu">ncol</span>(meth),<span class="dv">3</span>)]</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>mr <span class="ot">&lt;-</span> meth.C<span class="sc">/</span>(meth.C <span class="sc">+</span> meth.T)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>chr_pos <span class="ot">=</span> <span class="fu">getData</span>(meth)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> <span class="fu">data.frame</span>(chr_pos,mr)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(methyrate) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;chr&#39;</span>, <span class="st">&#39;pos&#39;</span>, <span class="fu">rep</span>(<span class="st">&#39;g1&#39;</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">&#39;g2&#39;</span>,<span class="dv">2</span>))</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>region<span class="ot">&lt;-</span><span class="fu">tileMethylCounts</span>(myobj)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>meth<span class="ot">&lt;-</span><span class="fu">unite</span>(region,<span class="at">destrand=</span>F)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>myDiff<span class="ot">&lt;-</span><span class="fu">calculateDiffMeth</span>(meth)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>met_all<span class="ot">&lt;-</span><span class="fu">getMethylDiff</span>(myDiff,<span class="at">type=</span><span class="st">&quot;all&quot;</span>)</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>example_tempfiles <span class="ot">=</span> <span class="fu">tempfile</span>(<span class="fu">c</span>(<span class="st">&quot;rate_combine&quot;</span>, <span class="st">&quot;methylKit_DMR_raw&quot;</span>))</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">tempdir</span>()</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(methyrate, <span class="at">file=</span>example_tempfiles[<span class="dv">1</span>], <span class="at">row.names=</span>F, <span class="at">col.names=</span>T, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span> (met_all, <span class="at">file=</span>example_tempfiles[<span class="dv">2</span>], <span class="at">sep =</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names =</span>F, <span class="at">col.names =</span>T, <span class="at">quote =</span>F)</span></code></pre></div>
+<div id="example-methylkit" class="section level2">
+<h2>Example: MethylKit</h2>
+<p>methylKit is an R package for DNA methylation analysis and annotation from high-throughput bisulfite sequencing. The package is designed to deal with sequencing data from RRBS and its variants, but also target-capture methods and whole genome bisulfite sequencing.</p>
+<p>Currently, <code>metevalue</code> package supports the e-value calculation using the <code>methylKit</code> output file.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metevalue)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">####Simulation Data ####</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>simu_g_value <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">r =</span> <span class="fl">0.1</span>){</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">=</span> <span class="fu">runif</span>(n)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  x[<span class="fu">runif</span>(n) <span class="sc">&lt;=</span> r] <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x);</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methylKit)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>file.list<span class="ot">=</span><span class="fu">list</span>( <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;test1.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;test2.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;control1.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;control2.myCpG.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;methylKit&quot;</span>) )</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># read the files to a methylRawList object: myobj</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>myobj<span class="ot">=</span><span class="fu">methRead</span>(file.list,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">sample.id=</span><span class="fu">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>               <span class="at">assembly=</span><span class="st">&quot;hg18&quot;</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>               <span class="at">treatment=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>               <span class="at">context=</span><span class="st">&quot;CpG&quot;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>meth<span class="ot">=</span><span class="fu">unite</span>(myobj, <span class="at">destrand=</span><span class="cn">FALSE</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>meth.C <span class="ot">&lt;-</span> <span class="fu">getData</span>(meth)[,<span class="fu">seq</span>(<span class="dv">6</span>,<span class="fu">ncol</span>(meth),<span class="dv">3</span>)]</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>meth.T <span class="ot">&lt;-</span> <span class="fu">getData</span>(meth)[,<span class="fu">seq</span>(<span class="dv">7</span>,<span class="fu">ncol</span>(meth),<span class="dv">3</span>)]</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>mr <span class="ot">&lt;-</span> meth.C<span class="sc">/</span>(meth.C <span class="sc">+</span> meth.T)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>chr_pos <span class="ot">=</span> <span class="fu">getData</span>(meth)[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> <span class="fu">data.frame</span>(chr_pos,mr)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(methyrate) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;chr&#39;</span>, <span class="st">&#39;pos&#39;</span>, <span class="fu">rep</span>(<span class="st">&#39;g1&#39;</span>,<span class="dv">2</span>), <span class="fu">rep</span>(<span class="st">&#39;g2&#39;</span>,<span class="dv">2</span>))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>region<span class="ot">&lt;-</span><span class="fu">tileMethylCounts</span>(myobj)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>meth<span class="ot">&lt;-</span><span class="fu">unite</span>(region,<span class="at">destrand=</span>F)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>myDiff<span class="ot">&lt;-</span><span class="fu">calculateDiffMeth</span>(meth)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; two groups detected:</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    will calculate methylation difference as the difference of</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    treatment (group: 1) - control (group: 0)</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>met_all<span class="ot">&lt;-</span><span class="fu">getMethylDiff</span>(myDiff,<span class="at">type=</span><span class="st">&quot;all&quot;</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>example_tempfiles <span class="ot">=</span> <span class="fu">tempfile</span>(<span class="fu">c</span>(<span class="st">&quot;rate_combine&quot;</span>, <span class="st">&quot;methylKit_DMR_raw&quot;</span>))</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="fu">tempdir</span>()</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(methyrate, <span class="at">file=</span>example_tempfiles[<span class="dv">1</span>], <span class="at">row.names=</span>F, <span class="at">col.names=</span>T, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span> (met_all, <span class="at">file=</span>example_tempfiles[<span class="dv">2</span>], <span class="at">sep =</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names =</span>F, <span class="at">col.names =</span>T, <span class="at">quote =</span>F)</span></code></pre></div>
 <p><code>evalue.methylKit</code> function could be used to tackle the problem.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">metevalue.methylKit</span>(example_tempfiles[<span class="dv">1</span>], example_tempfiles[<span class="dv">2</span>], <span class="at">bheader =</span> T)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">metevalue.methylKit</span>(example_tempfiles[<span class="dv">1</span>], example_tempfiles[<span class="dv">2</span>], <span class="at">bheader =</span> T)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;start&quot;, &quot;end&quot;)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    24 obs. of  9 variables:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ chr      : chr  &quot;chr21&quot; &quot;chr21&quot; &quot;chr21&quot; &quot;chr21&quot; ...</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ start    : int  9927001 9944001 9959001 9967001 10011001 10077001 10087001 10186001 13664001 13991001 ...</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ end      : int  9928000 9945000 9960000 9968000 10012000 10078000 10088000 10187000 13665000 13992000 ...</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ strand   : chr  &quot;*&quot; &quot;*&quot; &quot;*&quot; &quot;*&quot; ...</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ p        : num  2.47e-10 2.57e-21 4.39e-23 3.08e-04 2.02e-65 ...</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ qvalue   : num  3.24e-10 9.58e-21 2.36e-22 2.37e-04 3.27e-64 ...</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ meth.diff: num  -34.1 -40.2 -25.4 -25.9 25.8 ...</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ e_value  : num  1.65 1.65 1.65 1.65 1.65 ...</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ e_adjust : num  1.65 1.65 1.65 1.65 1.65 ...</span></span></code></pre></div>
 <p>Alternatively, one could use the build-in functions to derive functions which avoid the file operation:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(methyrate, met_all, <span class="at">method=</span><span class="st">&quot;methylKit&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;methylKit&quot;</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(methyrate, met_all, <span class="at">method=</span><span class="st">&quot;methylKit&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;methylKit&quot;</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;start&quot;, &quot;end&quot;)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    24 obs. of  9 variables:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ chr      : Factor w/ 1 level &quot;chr21&quot;: 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ start    : int  9927001 9944001 9959001 9967001 10011001 10077001 10087001 10186001 13664001 13991001 ...</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ end      : int  9928000 9945000 9960000 9968000 10012000 10078000 10088000 10187000 13665000 13992000 ...</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ strand   : Factor w/ 3 levels &quot;+&quot;,&quot;-&quot;,&quot;*&quot;: 3 3 3 3 3 3 3 3 3 3 ...</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ p        : num  2.47e-10 2.57e-21 4.39e-23 3.08e-04 2.02e-65 ...</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ qvalue   : num  3.24e-10 9.58e-21 2.36e-22 2.37e-04 3.27e-64 ...</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ meth.diff: num  -34.1 -40.2 -25.4 -25.9 25.8 ...</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ e_value  : num  1.65 1.65 1.65 1.65 1.65 ...</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ e_adjust : num  1.65 1.65 1.65 1.65 1.65 ...</span></span></code></pre></div>
 </div>
-<div id="biseq-example" class="section level2">
-<h2>BiSeq Example</h2>
-<p>First, we load the methylation data at CpG site levels from ‘BiSeq’ package. Then we clustered CpG sites into DMRs using ‘BiSeq’.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BiSeq)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rrbs)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rrbs.rel <span class="ot">&lt;-</span> <span class="fu">rawToRel</span>(rrbs)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">&lt;-</span> <span class="fu">methLevel</span>(rrbs.rel)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(methyrate)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>methyrateq <span class="ot">=</span> <span class="fu">cbind</span>(<span class="at">rows =</span> <span class="fu">as.numeric</span>(<span class="fu">row.names</span>(methyrate)), methyrate)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>methypos <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">rows =</span> <span class="fu">as.numeric</span>(<span class="fu">row.names</span>(methyrate)), <span class="fu">rowRanges</span>(rrbs))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> <span class="fu">left_join</span>(methypos, methyrateq)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> methyrate[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span><span class="sc">:</span><span class="dv">16</span>)]</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(methyrate) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;chr&#39;</span>,<span class="st">&#39;pos&#39;</span>,<span class="fu">rep</span>(<span class="st">&#39;g1&#39;</span>,<span class="dv">5</span>),<span class="fu">rep</span>(<span class="st">&#39;g2&#39;</span>,<span class="dv">5</span>))</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>rrbs.clust.unlim <span class="ot">&lt;-</span> <span class="fu">clusterSites</span>(<span class="at">object =</span> rrbs,<span class="at">perc.samples =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>,<span class="at">min.sites =</span> <span class="dv">20</span>,<span class="at">max.dist =</span> <span class="dv">100</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterSitesToGR</span>(rrbs.clust.unlim)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ind.cov <span class="ot">&lt;-</span> <span class="fu">totalReads</span>(rrbs.clust.unlim) <span class="sc">&gt;</span> <span class="dv">0</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>quant <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="fu">totalReads</span>(rrbs.clust.unlim)[ind.cov])</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>rrbs.clust.lim <span class="ot">&lt;-</span> <span class="fu">limitCov</span>(rrbs.clust.unlim, <span class="at">maxCov =</span> quant)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>predictedMeth <span class="ot">&lt;-</span> <span class="fu">predictMeth</span>(<span class="at">object =</span> rrbs.clust.lim)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>test<span class="ot">&lt;-</span> predictedMeth[, <span class="fu">colData</span>(predictedMeth)<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;test&quot;</span>]</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> predictedMeth[, <span class="fu">colData</span>(predictedMeth)<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;control&quot;</span>]</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>mean.test <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">methLevel</span>(test))</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>mean.control <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">methLevel</span>(control))</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>betaResults <span class="ot">&lt;-</span> <span class="fu">betaRegression</span>(<span class="at">formula =</span> <span class="sc">~</span>group,<span class="at">link =</span> <span class="st">&quot;probit&quot;</span>,<span class="at">object =</span> predictedMeth,<span class="at">type =</span> <span class="st">&quot;BR&quot;</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>vario <span class="ot">&lt;-</span> <span class="fu">makeVariogram</span>(betaResults)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>vario.sm <span class="ot">&lt;-</span> <span class="fu">smoothVariogram</span>(vario, <span class="at">sill =</span> <span class="fl">0.9</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>locCor <span class="ot">&lt;-</span> <span class="fu">estLocCor</span>(vario.sm)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>clusters.rej <span class="ot">&lt;-</span> <span class="fu">testClusters</span>(locCor)</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>clusters.trimmed <span class="ot">&lt;-</span> <span class="fu">trimClusters</span>(clusters.rej)</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>DMRs <span class="ot">&lt;-</span> <span class="fu">findDMRs</span>(clusters.trimmed,<span class="at">max.dist =</span> <span class="dv">100</span>,<span class="at">diff.dir =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>example_tempfiles <span class="ot">=</span> <span class="fu">tempfile</span>(<span class="fu">c</span>(<span class="st">&#39;rate_combine&#39;</span>, <span class="st">&#39;BiSeq_DMR&#39;</span>))</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(methyrate, example_tempfiles[<span class="dv">1</span>], <span class="at">row.names=</span>F, <span class="at">col.names=</span>T, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(DMRs, example_tempfiles[<span class="dv">2</span>], <span class="at">quote=</span>F, <span class="at">row.names =</span> F,<span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span></code></pre></div>
-<p>Finally, we added E-values and adjusted E-values as additional columns to the output file of ‘BiSeq’.<code>BiSeq_evalue</code> function could be used to tackle the problem.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>hh <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(DMRs)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(rate_combine, hh, <span class="at">method=</span><span class="st">&quot;biseq&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a,  <span class="at">b =</span> result<span class="sc">$</span>b, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b,<span class="at">method=</span><span class="st">&quot;biseq&quot;</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span></code></pre></div>
+<div id="example-biseq" class="section level2">
+<h2>Example: BiSeq</h2>
+<p>First, we load the methylation data at CpG site levels from ‘BiSeq’ package. Then we cluster CpG sites into DMRs using ‘BiSeq’.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BiSeq)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rrbs)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rrbs.rel <span class="ot">&lt;-</span> <span class="fu">rawToRel</span>(rrbs)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">&lt;-</span> <span class="fu">methLevel</span>(rrbs.rel)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(methyrate)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>methyrateq <span class="ot">=</span> <span class="fu">cbind</span>(<span class="at">rows =</span> <span class="fu">as.numeric</span>(<span class="fu">row.names</span>(methyrate)), methyrate)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>methypos <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">rows =</span> <span class="fu">as.numeric</span>(<span class="fu">row.names</span>(methyrate)), <span class="fu">rowRanges</span>(rrbs))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> <span class="fu">left_join</span>(methypos, methyrateq)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>methyrate <span class="ot">=</span> methyrate[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span><span class="sc">:</span><span class="dv">16</span>)]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(methyrate) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;chr&#39;</span>,<span class="st">&#39;pos&#39;</span>,<span class="fu">rep</span>(<span class="st">&#39;g1&#39;</span>,<span class="dv">5</span>),<span class="fu">rep</span>(<span class="st">&#39;g2&#39;</span>,<span class="dv">5</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>rrbs.clust.unlim <span class="ot">&lt;-</span> <span class="fu">clusterSites</span>(<span class="at">object =</span> rrbs,<span class="at">perc.samples =</span> <span class="dv">3</span><span class="sc">/</span><span class="dv">4</span>,<span class="at">min.sites =</span> <span class="dv">20</span>,<span class="at">max.dist =</span> <span class="dv">100</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterSitesToGR</span>(rrbs.clust.unlim)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ind.cov <span class="ot">&lt;-</span> <span class="fu">totalReads</span>(rrbs.clust.unlim) <span class="sc">&gt;</span> <span class="dv">0</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>quant <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="fu">totalReads</span>(rrbs.clust.unlim)[ind.cov])</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>rrbs.clust.lim <span class="ot">&lt;-</span> <span class="fu">limitCov</span>(rrbs.clust.unlim, <span class="at">maxCov =</span> quant)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>predictedMeth <span class="ot">&lt;-</span> <span class="fu">predictMeth</span>(<span class="at">object =</span> rrbs.clust.lim)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>test<span class="ot">&lt;-</span> predictedMeth[, <span class="fu">colData</span>(predictedMeth)<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;test&quot;</span>]</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> predictedMeth[, <span class="fu">colData</span>(predictedMeth)<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;control&quot;</span>]</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>mean.test <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">methLevel</span>(test))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>mean.control <span class="ot">&lt;-</span> <span class="fu">rowMeans</span>(<span class="fu">methLevel</span>(control))</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>betaResults <span class="ot">&lt;-</span> <span class="fu">betaRegression</span>(<span class="at">formula =</span> <span class="sc">~</span>group,<span class="at">link =</span> <span class="st">&quot;probit&quot;</span>,<span class="at">object =</span> predictedMeth,<span class="at">type =</span> <span class="st">&quot;BR&quot;</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>vario <span class="ot">&lt;-</span> <span class="fu">makeVariogram</span>(betaResults)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>vario.sm <span class="ot">&lt;-</span> <span class="fu">smoothVariogram</span>(vario, <span class="at">sill =</span> <span class="fl">0.9</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>locCor <span class="ot">&lt;-</span> <span class="fu">estLocCor</span>(vario.sm)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>clusters.rej <span class="ot">&lt;-</span> <span class="fu">testClusters</span>(locCor)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>clusters.trimmed <span class="ot">&lt;-</span> <span class="fu">trimClusters</span>(clusters.rej)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>DMRs <span class="ot">&lt;-</span> <span class="fu">findDMRs</span>(clusters.trimmed,<span class="at">max.dist =</span> <span class="dv">100</span>,<span class="at">diff.dir =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>example_tempfiles <span class="ot">=</span> <span class="fu">tempfile</span>(<span class="fu">c</span>(<span class="st">&#39;rate_combine&#39;</span>, <span class="st">&#39;BiSeq_DMR&#39;</span>))</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(methyrate, example_tempfiles[<span class="dv">1</span>], <span class="at">row.names=</span>F, <span class="at">col.names=</span>T, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(DMRs, example_tempfiles[<span class="dv">2</span>], <span class="at">quote=</span>F, <span class="at">row.names =</span> F,<span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span></code></pre></div>
+<p>Finally, we add E-values and adjusted E-values as additional columns to the output file of ‘BiSeq’.<code>metevalue.biseq</code> function could be used to tackle the problem.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">metevalue.biseq</span>(example_tempfiles[<span class="dv">1</span>],example_tempfiles[<span class="dv">2</span>])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(result)</span></code></pre></div>
 </div>
-<div id="dmrfinder-example" class="section level2">
-<h2>DMRfinder Example</h2>
+<div id="example-dmrfinder" class="section level2">
+<h2>Example: DMRfinder</h2>
 <p>Given the input file</p>
 <ul>
 <li><p><code>rate_combine_DMRfinder</code>: a file containing methylation rates at each CpG site</p></li>
 <li><p><code>DMRfinder_DMR</code>: the output file from ‘DMRfinder’</p></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rate_combine <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;rate_combine_DMRfinder&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rate_combine)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>DMRs <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;DMRfinder_DMR&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(DMRs)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rate_combine <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;rate_combine_DMRfinder&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rate_combine)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>DMRs <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;DMRfinder_DMR&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(DMRs)</span></code></pre></div>
 <p>Adding E-values and adjusted E-values as additional columns to file ‘DMRfinder_DMR’</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">evalue.DMRfinder</span>(<span class="st">&#39;rate_combine_DMRfinder&#39;</span>, <span class="st">&#39;DMRfinder_DMR&#39;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
-<p>Alternatively, function <code>varevalue.metilene</code> can also provides e-value and adjusted e-value.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(rate_combine, DMRs, <span class="at">method=</span><span class="st">&quot;DMRfinder&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;DMRfinder&quot;</span>))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">metevalue.DMRfinder</span>(<span class="st">&#39;rate_combine_DMRfinder&#39;</span>, <span class="st">&#39;DMRfinder_DMR&#39;</span>, <span class="at">bheader=</span>T)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
+<p>Alternatively, function <code>varevalue.metilene</code> can also provide e-value and adjusted e-value.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(rate_combine, DMRs, <span class="at">method=</span><span class="st">&quot;DMRfinder&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;DMRfinder&quot;</span>))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
 </div>
-<div id="metilene-example" class="section level2">
-<h2>Metilene Example</h2>
+<div id="example-metilene" class="section level2">
+<h2>Example: Metilene</h2>
 <p>Given</p>
 <ul>
 <li><code>metilene.input</code>: the input file of <code>Metilene</code> containing methylation rates at each CpG site</li>
 <li><code>metilene.out</code>: the output file of <code>Metilene</code></li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.input&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(input)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.out&quot;</span>, <span class="at">header =</span> F)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.input&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(input)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.out&quot;</span>, <span class="at">header =</span> F)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(out)</span></code></pre></div>
 <p>Adding E-values and adjusted E-values as additional columns to <code>metilene.out</code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">evalue.metilene</span>(<span class="st">&#39;metilene.input&#39;</span>, <span class="st">&#39;metilene.out&#39;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
-<p>Alternatively, function <code>varevalue.metilene</code> can also provides e-value and adjusted e-value.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(input, out, <span class="at">method=</span><span class="st">&quot;metilene&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;metilene&quot;</span>))</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">metevalue.metilene</span>(<span class="st">&#39;metilene.input&#39;</span>, <span class="st">&#39;metilene.out&#39;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
+<p>Alternatively, function <code>varevalue.metilene</code> can also provide e-value and adjusted e-value.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">evalue_buildin_var_fmt_nm</span>(input, out, <span class="at">method=</span><span class="st">&quot;metilene&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">list</span>(<span class="at">a =</span> result<span class="sc">$</span>a, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">b =</span> result<span class="sc">$</span>b, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">a_b =</span> <span class="fu">evalue_buildin_sql</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, <span class="at">method=</span><span class="st">&quot;metilene&quot;</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>result <span class="ot">=</span> <span class="fu">varevalue.metilene</span>(result<span class="sc">$</span>a, result<span class="sc">$</span>b, result<span class="sc">$</span>a_b)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(result)</span></code></pre></div>
 </div>
-<div id="general-case-for-dna-methylation-data" class="section level2">
-<h2>General case for DNA methylation data</h2>
-<p>In above examples, we have already provided examples to calculate E-values directly from DMR detection tools including BiSeq, DMRfinder, MethylKit and Metilene. However, users may wonder how to calculate the E-values directly from CpG sites or other DMR detection tools not presented above. We then facilitate the purpose in the following example.</p>
+<div id="example-other-dna-methylation-tools" class="section level2">
+<h2>Example: Other DNA methylation tools</h2>
+<p>In above examples, we have already provided examples to calculate E-values directly from DMR detection tools including BiSeq, DMRfinder, MethylKit and Metilene. All of these require users to prepare an output file of different tools. However, users may wonder how to calculate the E-values directly from CpG sites or other DNA methylation tools not presented above. We then facilitate the purpose in the following example.</p>
 <ul>
-<li><code>metilene.input</code>: the input file of <code>Metilene</code> containing methylation rates at each CpG site</li>
+<li><code>methyrate</code>: a file containing methylation rates at each CpG site of 2 different groups</li>
 </ul>
-<p>By changing the group name, start site and end site, function <code>varevalue.signle_general</code> can calculate e-value of any site or region using a general methylation rates data. Take <code>metilene.input</code> as example.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;metilene.input&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>e_value <span class="ot">&lt;-</span> <span class="fu">varevalue.signle_general</span>(<span class="at">methyrate=</span>input, <span class="at">group1_name=</span><span class="st">&#39;g1&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;g2&#39;</span>, <span class="at">chr=</span><span class="st">&#39;chr21&#39;</span>, <span class="at">start=</span><span class="dv">9439679</span>, <span class="at">end=</span><span class="dv">9439679</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(e_value)</span></code></pre></div>
+<p>By changing the group name, start site and end site, function <code>varevalue.single_general</code> can calculate e-value of any site or region using a general methylation rates data without using an output file of a specific tool.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;methyrate&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>e_value <span class="ot">&lt;-</span> <span class="fu">varevalue.single_general</span>(<span class="at">methyrate=</span>input, <span class="at">group1_name=</span><span class="st">&#39;g1&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;g2&#39;</span>, <span class="at">chr=</span><span class="st">&#39;chr21&#39;</span>, <span class="at">start=</span><span class="dv">9439679</span>, <span class="at">end=</span><span class="dv">9439679</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(e_value)</span></code></pre></div>
 </div>
-<div id="general-case-for-rna-seq-data" class="section level2">
-<h2>General case for RNA-seq data</h2>
+<div id="example-rna-seq-data" class="section level2">
+<h2>Example: RNA-seq data</h2>
 <p>The framework of E-value calculation presented in this project is also able to be extended to other genomic data including RNA-seq. Here is an example to introduce the E-value calculation in RNA-seq.</p>
 <ul>
 <li><code>desq_out</code>: the RNA data</li>
 </ul>
-<p>function <code>varevalue.signle_general</code> can provides e-values for each row of the normalized expression level of RNA-seq data.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;desq_out&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>data_e <span class="ot">&lt;-</span> <span class="fu">metevalue.RNA_general</span>(input, <span class="at">group1_name=</span><span class="st">&#39;treated&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;untreated&#39;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_e)</span></code></pre></div>
+<p>function <code>metevalue.RNA_general</code> can provide e-values for each row of the normalized expression level of RNA-seq data.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;desq_out&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data_e <span class="ot">&lt;-</span> <span class="fu">metevalue.RNA_general</span>(input, <span class="at">group1_name=</span><span class="st">&#39;treated&#39;</span>, <span class="at">group2_name=</span><span class="st">&#39;untreated&#39;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_e)</span></code></pre></div>
 </div>
 </div>
 <div id="misc" class="section level1">
@@ -660,8 +703,141 @@ p {
 </tbody>
 </table>
 </div>
+<div id="input-data-examples-dmrfinder-1" class="section level3">
+<h3>Input Data Examples: DMRfinder</h3>
+<p><strong>methyrate Example</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="6%" />
+<col width="8%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">chr</th>
+<th align="right">pos</th>
+<th align="right">g1</th>
+<th align="right">g1.1</th>
+<th align="right">g1.2</th>
+<th align="right">g1.3</th>
+<th align="right">g1.4</th>
+<th align="right">g1.5</th>
+<th align="right">g1.6</th>
+<th align="right">g1.7</th>
+<th align="right">g2</th>
+<th align="right">g2.1</th>
+<th align="right">g2.2</th>
+<th align="right">g2.3</th>
+<th align="right">g2.4</th>
+<th align="right">g2.5</th>
+<th align="right">g2.6</th>
+<th align="right">g2.7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chr21</td>
+<td align="right">9437433</td>
+<td align="right">0.9285714</td>
+<td align="right">NA</td>
+<td align="right">0.7222222</td>
+<td align="right">0.75</td>
+<td align="right">1</td>
+<td align="right">0.6666667</td>
+<td align="right">1</td>
+<td align="right">0.8695652</td>
+<td align="right">0.0000000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0</td>
+<td align="right">NA</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">chr21</td>
+<td align="right">9437445</td>
+<td align="right">1.0000000</td>
+<td align="right">NA</td>
+<td align="right">0.9444444</td>
+<td align="right">0.75</td>
+<td align="right">1</td>
+<td align="right">0.6666667</td>
+<td align="right">0</td>
+<td align="right">0.8695652</td>
+<td align="right">0.6111111</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.7333333</td>
+<td align="right">0.6</td>
+<td align="right">NA</td>
+<td align="right">0.75</td>
+</tr>
+</tbody>
+</table>
+<p><strong>metilene.output Example</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">chr</th>
+<th align="right">start</th>
+<th align="right">end</th>
+<th align="right">q-value</th>
+<th align="right">methyl.diff</th>
+<th align="right">CpGs</th>
+<th align="right">p</th>
+<th align="right">p2</th>
+<th align="right">m1</th>
+<th align="right">m2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chr21</td>
+<td align="right">9437432</td>
+<td align="right">9437540</td>
+<td align="right">0</td>
+<td align="right">0.610989</td>
+<td align="right">26</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.73705</td>
+<td align="right">0.12606</td>
+</tr>
+<tr class="even">
+<td align="left">chr21</td>
+<td align="right">9708982</td>
+<td align="right">9709189</td>
+<td align="right">0</td>
+<td align="right">0.475630</td>
+<td align="right">28</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.58862</td>
+<td align="right">0.11299</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="input-data-examples-metilene" class="section level3">
-<h3>Input Data Examples: metilene</h3>
+<h3>Input Data Examples: Metilene</h3>
 <p><strong>metilene.input Example</strong></p>
 <table style="width:100%;">
 <colgroup>
@@ -793,8 +969,98 @@ p {
 </tbody>
 </table>
 </div>
-<div id="input-data-examples-rnaseq" class="section level3">
-<h3>Input Data Examples: RNAseq</h3>
+<div id="input-data-examples-other-dna-methylation-tools" class="section level3">
+<h3>Input Data Examples: Other DNA methylation tools</h3>
+<p><strong>methyrate Example</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col width="4%" />
+<col width="6%" />
+<col width="8%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="8%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">chr</th>
+<th align="right">pos</th>
+<th align="right">g1</th>
+<th align="right">g1.1</th>
+<th align="right">g1.2</th>
+<th align="right">g1.3</th>
+<th align="right">g1.4</th>
+<th align="right">g1.5</th>
+<th align="right">g1.6</th>
+<th align="right">g1.7</th>
+<th align="right">g2</th>
+<th align="right">g2.1</th>
+<th align="right">g2.2</th>
+<th align="right">g2.3</th>
+<th align="right">g2.4</th>
+<th align="right">g2.5</th>
+<th align="right">g2.6</th>
+<th align="right">g2.7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chr21</td>
+<td align="right">9437433</td>
+<td align="right">0.9285714</td>
+<td align="right">NA</td>
+<td align="right">0.7222222</td>
+<td align="right">0.75</td>
+<td align="right">1</td>
+<td align="right">0.6666667</td>
+<td align="right">1</td>
+<td align="right">0.8695652</td>
+<td align="right">0.0000000</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0</td>
+<td align="right">NA</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td align="left">chr21</td>
+<td align="right">9437445</td>
+<td align="right">1.0000000</td>
+<td align="right">NA</td>
+<td align="right">0.9444444</td>
+<td align="right">0.75</td>
+<td align="right">1</td>
+<td align="right">0.6666667</td>
+<td align="right">0</td>
+<td align="right">0.8695652</td>
+<td align="right">0.6111111</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.7333333</td>
+<td align="right">0.6</td>
+<td align="right">NA</td>
+<td align="right">0.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="input-data-examples-rna-seq-data" class="section level3">
+<h3>Input Data Examples: RNA-seq data</h3>
 <p><strong>desq_out Example</strong></p>
 <table>
 <colgroup>
@@ -841,7 +1107,7 @@ p {
 </div>
 </div>
 </div>
-<div id="other-demos" class="section level1">
+<div id="other-demos-1" class="section level1">
 <h1>Other Demos</h1>
 <p>Please vist the <a href="https://github.com/yfyang86/metevalue-demos/tree/main/simulation">metevalue-emo</a> project for more demos.</p>
 </div>

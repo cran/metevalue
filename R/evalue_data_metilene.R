@@ -1,11 +1,15 @@
-#' Evalue of the Metilene data format
-#' @param methyrate metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+#' Calculate E-value of the Metilene data format
+#' @param methyrate metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns.
 #' For exampe:
+#' \tabular{rrrrrrrr}{
+#'  chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
+#' The columns are (in order):
 #'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
+#'      - chr and pos are keys;
 #'
-#' chrom and pos are keys;
-#' g1 g1 g2 g2 must be stored in groups.
+#'      - g1~g2: methylation rate data in groups.
 #'
 #' @param metilene.output  metilene input file path. This file should stored as a sep(e.g. TAB) separated file with two key columns and several value columns:
 #' The columns are (in order):
@@ -56,10 +60,20 @@
 #'     - m2:  The absolute mean methylation level for the corresponding segment of group 2
 #'
 #'     - e_value: The e-value of the corresponding region
+#'
 #' @examples
 #' #### metilene example ####'
 #' data(demo_metilene_input)
 #' data(demo_metilene_out)
+#' #example_tempfiles = tempfile(c("metilene_input", "metilene_out"))
+#' #tempdir()
+#' #write.table(demo_metilene_input, file=example_tempfiles[1],
+#' #      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table(demo_metilene_out, file=example_tempfiles[2],
+#' #      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #result = metevalue.metilene(example_tempfiles[1], example_tempfiles[2],
+#' #      bheader = TRUE)
+#' #head(result)
 metevalue.metilene <- function(methyrate, metilene.output, adjust.methods='BH', sep = "\t", bheader = FALSE){
     re = metevalue.metilene.chk (methyrate, metilene.output, sep, bheader)
 return(varevalue.metilene(re$file_a, re$file_b, re$file_a_b, adjust.methods=adjust.methods));

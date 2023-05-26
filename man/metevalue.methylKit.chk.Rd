@@ -12,13 +12,17 @@ metevalue.methylKit.chk(
 )
 }
 \arguments{
-\item{input_filename_a}{the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+\item{input_filename_a}{the combined data of methylation rate file. This file is a sep (e.g. TAB) separated file with two key columns and several value columns:
 For exampe:
 
-chr    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
+\tabular{rrrrrrrr}{
+chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
 
-chr and pos are keys;
-g1 g1 g2 g2 must be stored in pairs.}
+     - chr and pos are keys;
+
+     - g1~g2: methylation rate data in groups.}
 
 \item{input_filename_b}{the output file of methylKit. a methylDiff or methylDiffDB object containing the differential methylated locations satisfying the criteria.
 The columns are (in order):
@@ -48,7 +52,14 @@ list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames 
 Check the methylKit data format
 }
 \examples{
-#### methylKit example ####
 data(demo_methylkit_methyrate)
 data(demo_methylkit_met_all)
+## example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+## tempdir()
+## write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+##       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+## write.table(demo_methylkit_met_all, file=example_tempfiles[2],
+##       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+## result = metevalue.methylKit.chk(example_tempfiles[1], example_tempfiles[2],
+##       bheader = TRUE)
 }

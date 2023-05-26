@@ -1,7 +1,12 @@
-#' Evalue of the methylKit data format
+#' Calculate E-value of the methylKit data format
 #'
-#' Perform the Evaluation for the BiSeq data.
-#' @param methyrate is the data of methylation rates of each sites and group, the columns are (in order):
+#' @param methyrate is the data of methylation rates of each sites and group. For example:
+#' \tabular{rrrrrrrr}{
+#' chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
+#' The columns are (in order):
+#'
 #'     - chr: Chromosome
 #'
 #'     - pos: int Position
@@ -9,6 +14,7 @@
 #'     - g1~g2: methylation rate data in groups
 #'
 #' @param methylKit.output is the output data with e-value of each region
+#'
 #'     - chr: Chromosome
 #'
 #'     - start: The positions of the start sites of the corresponding region
@@ -49,19 +55,19 @@
 #'     - m2:  The absolute mean methylation level for the corresponding segment of group 2
 #'
 #'     - e_value: The e-value of the corresponding region
+#'
 #' @examples
-#' #### methylKit example ####
 #' data(demo_methylkit_methyrate)
 #' data(demo_methylkit_met_all)
-#' # example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-#' # tempdir()
-#' # write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-#' #       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-#' # write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-#' #       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-#' # result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-#' #       bheader = TRUE)
-#' # str(result)
+#' ## example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+#' ## tempdir()
+#' ## write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+#' ##       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' ## write.table(demo_methylkit_met_all, file=example_tempfiles[2],
+#' ##       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' ## result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
+#' ##       bheader = TRUE)
+#' ## str(result)
 metevalue.methylKit <- function(methyrate, methylKit.output, adjust.methods='BH', sep = "\t", bheader = FALSE){
   re = metevalue.methylKit.chk(methyrate, methylKit.output, sep, bheader)
   return(varevalue.metilene(re$file_a, re$file_b, re$file_a_b, adjust.methods=adjust.methods));

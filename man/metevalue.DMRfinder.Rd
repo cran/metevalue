@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalue_data_DMRfinder.R
 \name{metevalue.DMRfinder}
 \alias{metevalue.DMRfinder}
-\title{Evalue of the DMRfinder data format}
+\title{Calculate E-value of the DMRfinder data format}
 \usage{
 metevalue.DMRfinder(
   methyrate,
@@ -13,7 +13,13 @@ metevalue.DMRfinder(
 )
 }
 \arguments{
-\item{methyrate}{is the methyrate file.
+\item{methyrate}{is the methyrate file. For example:
+\tabular{rrrrrrrr}{
+chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
+The columns are (in order):
+
     - chr: Chromosome
 
     - pos: int Position
@@ -21,6 +27,7 @@ metevalue.DMRfinder(
     - g1~g2: methylation rate data in groups}
 
 \item{DMRfinder.output}{is the output file of DMRfinder.
+
     - chr: Chromosome
 
     - start: The positions of the start sites of the corresponding region
@@ -69,10 +76,18 @@ a dataframe, the columns are (in order):
     - e_value: The e-value of the corresponding region
 }
 \description{
-Perform the Evaluation for the DMRfinder data.
+Calculate E-value of the DMRfinder data format
 }
 \examples{
-#### DMRfinder example ####'
 data(demo_DMRfinder_rate_combine)
 data(demo_DMRfinder_DMRs)
+#example_tempfiles = tempfile(c("rate_combine", "DMRfinder_out"))
+#tempdir()
+#write.table(demo_DMRfinder_rate_combine, file=example_tempfiles[1],
+#      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#write.table(demo_DMRfinder_DMRs, file=example_tempfiles[2],
+#      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#result = metevalue._DMRfinder(example_tempfiles[1], example_tempfiles[2],
+#      bheader = TRUE)
+#head(result)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalue_data_metilene.R
 \name{metevalue.metilene}
 \alias{metevalue.metilene}
-\title{Evalue of the Metilene data format}
+\title{Calculate E-value of the Metilene data format}
 \usage{
 metevalue.metilene(
   methyrate,
@@ -13,13 +13,17 @@ metevalue.metilene(
 )
 }
 \arguments{
-\item{methyrate}{metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+\item{methyrate}{metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns.
 For exampe:
+\tabular{rrrrrrrr}{
+ chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
+The columns are (in order):
 
-chr    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
+     - chr and pos are keys;
 
-chrom and pos are keys;
-g1 g1 g2 g2 must be stored in groups.}
+     - g1~g2: methylation rate data in groups.}
 
 \item{metilene.output}{metilene input file path. This file should stored as a sep(e.g. TAB) separated file with two key columns and several value columns:
 The columns are (in order):
@@ -76,10 +80,19 @@ a dataframe, the columns are (in order):
     - e_value: The e-value of the corresponding region
 }
 \description{
-Evalue of the Metilene data format
+Calculate E-value of the Metilene data format
 }
 \examples{
 #### metilene example ####'
 data(demo_metilene_input)
 data(demo_metilene_out)
+#example_tempfiles = tempfile(c("metilene_input", "metilene_out"))
+#tempdir()
+#write.table(demo_metilene_input, file=example_tempfiles[1],
+#      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#write.table(demo_metilene_out, file=example_tempfiles[2],
+#      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#result = metevalue.metilene(example_tempfiles[1], example_tempfiles[2],
+#      bheader = TRUE)
+#head(result)
 }

@@ -2,37 +2,37 @@
 % Please edit documentation in R/evalue_main.R
 \name{metevalue.RNA_general}
 \alias{metevalue.RNA_general}
-\title{A general method to calculate the e-value for RNA data.}
+\title{A general method to calculate the e-value for RNA-seq data.}
 \usage{
 metevalue.RNA_general(rna, group1_name, group2_name)
 }
 \arguments{
-\item{rna}{data.frame: A data.frame object of RNAseq data 
-Notice, this data frame only contains the value in pairs, for example:
+\item{rna}{data.frame: A data.frame object of RNAseq data. For example:
 
-
-     treated1fb treated2fb untreated1fb untreated2fb
-
-TAG1   4.449648   4.750104     4.392285     4.497514
-
-TAG2   8.241116   8.302852     8.318125     8.488796
-
-...
-
+\tabular{rrrrr}{
+TAG   \tab  treated1fb \tab treated2fb  \tab untreated1fb \tab untreated2fb \cr
+TAG1  \tab 4.449648    \tab 4.750104    \tab   4.392285   \tab   4.497514 \cr
+TAG2  \tab 8.241116    \tab 8.302852    \tab  8.318125    \tab  8.488796 \cr
+...   \tab ...         \tab ...         \tab  ...         \tab  ...      \cr
+}
 
 Row names (TAG1 and TAG2 in the above example) is also suggested.}
 
-\item{group1_name}{charactor: The name of the first group. For example, "treated" in the example.}
+\item{group1_name}{charactor: The name (pattern) of the first group. For example, "treated" in the above example.
+For example `treated_abc` and `treated` will be considered as the same group if `group1_name = "treated"`.  Use this with care in practice.}
 
-\item{group2_name}{charactor: The name of the second group. For example, "untreated" in the example.}
+\item{group2_name}{charactor: The name (pattern) of the second group. For example, "untreated" in the above example.
+For example `untreated_abc` and `untreated` will be considered as the same group if `group2_name = "untreated"`.  Use this with care in practice.}
 }
 \value{
 evalue
 }
 \description{
-Perform the Evaluation for the RNA data.
+A general method to calculate the e-value for RNA-seq data.
 }
 \examples{
 data("demo_desq_out")
-# evalue = metevalue.RNA_general(demo_desq_out, 'treated','untreated')
+\donttest{
+evalue = metevalue.RNA_general(demo_desq_out, 'treated','untreated')
+}
 }

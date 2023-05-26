@@ -1,10 +1,11 @@
-#' Evalue of the Metilene data
+#' Calculate E-value of the Metilene data
 #'
-#' Perform the Evaluation for the Metilene data. The data file could be pre-handled by the evalue.metilene.chk function.
-#' @param a A data.frame object, the columns should be (in order):
-#'
-#' chr	pos	g1	g1	g1	g1	g1	g1	g1	g1	g2	g2	g2	g2	g2	g2	g2	g2
-#'
+#' The data file could be pre-handled by the evalue.metilene.chk function.
+#' @param a A data.frame object:
+#' \tabular{rrrrrrrr}{
+#'  chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
 #' i.e two key columns (chrom, pos) with several value columns in groups.
 #' @param b A data.frame object stores the data, the columns are (in order):
 #'
@@ -27,6 +28,7 @@
 #'     - m1:  The absolute mean methylation level for the corresponding segment of group 1
 #'
 #'     - m2:  The absolute mean methylation level for the corresponding segment of group 2
+#'
 #' @param a_b A data.frame object of a join b with particular data clean processes. Check the function [evalue.methylKit.chk()] for more details.
 #' @param group1_name charactor: The name of the first group. For example, "g1" in the above example.
 #' @param group2_name charactor: The name of the second group. For example, "g2" in the above example.
@@ -54,19 +56,15 @@
 #'     - m2:  The absolute mean methylation level for the corresponding segment of group 2
 #'
 #'     - e_value: The e-value of the corresponding region
+#'
 #' @examples
-#' #### methylKit example ####
-#' data(demo_methylkit_methyrate)
-#' data(demo_methylkit_met_all)
-#' # example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-#' # tempdir()
-#' # write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-#' #       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-#' # write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-#' #       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-#' # result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-#' #       bheader = TRUE)
-#' # str(result)
+#' #data(demo_metilene_input)
+#' #data(demo_metilene_out)
+#' #result = evalue_buildin_var_fmt_nm(demo_metilene_input, demo_metilene_out, method="metilene")
+#' #result = list(a = result$a, 
+#' #              b = result$b, 
+#' #              a_b = evalue_buildin_sql(result$a, result$b, method="metilene"))
+#' #result = varevalue.metilene(result$a, result$b, result$a_b)
 varevalue.metilene <- function(a, b, a_b, group1_name = 'g1', group2_name = 'g2', adjust.methods='BH'){
   innerf = function(x, innermu=0., innersig=1.){
     vector_temp = na.omit(as.numeric(x))
@@ -119,37 +117,41 @@ varevalue.metilene <- function(a, b, a_b, group1_name = 'g1', group2_name = 'g2'
 
 
 
-#' A general method to calculate the e-value for the Metilene alike gene data with specified start and end sits
+#' A general method to calculate the e-value for other DNA methylation tools not described above. The input data is the DNA methylation rates using the similar format with Metilene.
 #'
-#' Perform the Evaluation for the Metilene data. The data file could be pre-handled by the metevalue.[types].chk function.
-#' The  Chromosome name, start and end sits shoule be specified.
-#' @param methyrate data.frame: A data.frame object of methylation rates, the columns should be(name of groups can be self-defined)
-#'
-#' chr	pos	group1_name group1_name ... group1_name group2_name group2_name
-#' 
-#' @param group1_name charactor: The name of the first group. For example, "treated" in the above example.
-#' @param group2_name charactor: The name of the second group. For example, "untreated" in the above example.
+#' The input data file is just the DNA methylation rates using the similar format above, with no need for another data file output by different tools.
+#' The Chromosome name, start and end sites shoule be specified in the function.
+#' @param methyrate data.frame: A data.frame object of methylation rates, the columns should be (name of groups can be self-defined)
+#' \tabular{rrrrrrrr}{
+#'  chr	\tab  pos	 \tab   g1	\tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+#' chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+#' }
+#' @param group1_name charactor: The name (pattern) of the first group. For example, "g1" in the above example.
+#' For example `g1_abc` and `g1` will be considered as the same group if `group1_name = "g1"`.  Use this with care in practice.
+#' @param group2_name charactor: The name (pattern) of the second group. For example, "g2" in the above example.
+#' For example `g2_abc` and `g2` will be considered as the same group if `group2_name = "g2"`.  Use this with care in practice.
 #' @param chr charactor: The Chromosome name. Typically, it is a string like "chr21" and so on.
 #' @param start integer:  The position of the start site of the corresponding region
 #' @param end integer: The position of the end site of the corresponding region
 #' @return evalue
 #' @examples
-#' data("demo_metilene_out")
-#' data("demo_metilene_input")
-#' # result = evalue_buildin_var_fmt_nm(demo_metilene_input,
-#' #         demo_metilene_out, method="metilene")
-#' # a_b = evalue_buildin_sql(result$a, result$b, method = 'metilene')
-#' # varevalue.signle_general(a_b, chr = "chr21", start = 9437432, end = 9437540)
+#' #data("demo_metilene_input")
+#' #varevalue.single_general(demo_metilene_input, chr = "chr21", start = 9437432, end = 9437540)
 #' # [1] 2.626126e+43
 #' 
-#' #### Compare to `varevalue.metilene`  ####
-#' # resultx = list(a = result$a,
-#' #           b = result$b,
-#' #           a_b = evalue_buildin_sql(result$a, result$b, method = method_in_use))
-#' # result_met = varevalue.metilene(resultx$a, resultx$b, resultx$a_b)
-#' # result_met[with(result_met, chr == 'chr21' & start == '9437432' & end == '9437540'), ]
+#' #### Compare to `metevalue.metilene`  ####
+#' data(demo_metilene_out)
+#' #example_tempfiles = tempfile(c("metilene_input", "metilene_out"))
+#' #tempdir()
+#' #write.table(demo_metilene_input, file=example_tempfiles[1],
+#' #      row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+#' #write.table (demo_metilene_out, file=example_tempfiles[2],
+#' #      sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#' #result = metevalue.metilene(example_tempfiles[1], example_tempfiles[2],
+#' #      bheader = TRUE)
+#' # result[with(result, chr == 'chr21' & start == '9437432' & end == '9437540'), ncol(result)]
 #' # [1] 2.626126e+43
-varevalue.signle_general = function(methyrate, group1_name='g1', group2_name='g2', chr, start, end){
+varevalue.single_general = function(methyrate, group1_name='g1', group2_name='g2', chr, start, end){
   innerf = function(x, innermu=0., innersig=1.){
     vector_temp = na.omit(as.numeric(x))
     n = length(vector_temp)
@@ -189,29 +191,28 @@ varevalue.signle_general = function(methyrate, group1_name='g1', group2_name='g2
   return(e_value)
 }
 
-#' A general method to calculate the e-value for RNA data.
+#' A general method to calculate the e-value for RNA-seq data.
 #'
-#' Perform the Evaluation for the RNA data.
-#' @param rna data.frame: A data.frame object of RNAseq data 
-#' Notice, this data frame only contains the value in pairs, for example:
+#' @param rna data.frame: A data.frame object of RNAseq data. For example:
 #' 
-#' 
-#'      treated1fb treated2fb untreated1fb untreated2fb
-#' 
-#' TAG1   4.449648   4.750104     4.392285     4.497514
-#' 
-#' TAG2   8.241116   8.302852     8.318125     8.488796
-#' 
-#' ...
-#' 
+#' \tabular{rrrrr}{
+#' TAG   \tab  treated1fb \tab treated2fb  \tab untreated1fb \tab untreated2fb \cr
+#' TAG1  \tab 4.449648    \tab 4.750104    \tab   4.392285   \tab   4.497514 \cr
+#' TAG2  \tab 8.241116    \tab 8.302852    \tab  8.318125    \tab  8.488796 \cr
+#' ...   \tab ...         \tab ...         \tab  ...         \tab  ...      \cr
+#' }
 #' 
 #' Row names (TAG1 and TAG2 in the above example) is also suggested.
-#' @param group1_name charactor: The name of the first group. For example, "treated" in the example.
-#' @param group2_name charactor: The name of the second group. For example, "untreated" in the example.
+#' @param group1_name charactor: The name (pattern) of the first group. For example, "treated" in the above example.
+#' For example `treated_abc` and `treated` will be considered as the same group if `group1_name = "treated"`.  Use this with care in practice.
+#' @param group2_name charactor: The name (pattern) of the second group. For example, "untreated" in the above example.
+#' For example `untreated_abc` and `untreated` will be considered as the same group if `group2_name = "untreated"`.  Use this with care in practice.
 #' @return evalue 
 #' @examples
 #' data("demo_desq_out")
-#' # evalue = metevalue.RNA_general(demo_desq_out, 'treated','untreated')
+#' \donttest{
+#' evalue = metevalue.RNA_general(demo_desq_out, 'treated','untreated')
+#' }
 metevalue.RNA_general = function(rna, group1_name, group2_name){
   a_b = data.frame(rna)
   innerf = function(x, innermu=0., innersig=1.){
@@ -360,30 +361,31 @@ NULL
 #' @keywords metevalue
 NULL
 
-#' DMR BiSeq Demo Dataset
-#'
-#' The BiSeq dataset for demo purpose. The data are dummy data. It includes 9 columns:
-#'
-#'
-#' - seqnames: Chromosome
-#'
-#'  - start: The positions of the start sites of the corresponding region
-#'
-#'  - end: The positions of the end sites of the corresponding region
-#'
-#'  - strand: Strand
-#'
-#'  - median.p
-#'
-#'  - median.meth.group1
-#'
-#'  - median.meth.group2
-#'
-#'  - median.meth.diff
-#' @name demo_biseq_DMR
-#' @docType data
-#' @keywords metevalue
-NULL
+# #' DMR BiSeq Demo Dataset
+# #'
+# #' The BiSeq dataset for demo purpose. The data are dummy data. It includes 8 columns:
+# #'
+# #'
+# #' - seqnames: Chromosome
+# #'
+# #'  - start: The positions of the start sites of the corresponding region
+# #'
+# #'  - end: The positions of the end sites of the corresponding region
+# #'
+# #'  - strand: Strand
+# #'
+# #'  - median.p
+# #'
+# #'  - median.meth.group1
+# #'
+# #'  - median.meth.group2
+# #'
+# #'  - median.meth.diff
+# #'
+# #' @name demo_biseq_DMR
+# #' @docType data
+# #' @keywords metevalue
+# #NULL
 
 #' BiSeq Methyrate Demo Dataset
 #'
@@ -408,17 +410,17 @@ NULL
 #'
 #' The dummy output for BiSeq illustrating purpose. It is dummy.
 #'
-#' - seqnames
+#' - seqnames: Chromosome
 #'
-#' - start
+#'  - start: The positions of the start sites of the corresponding region
 #'
-#' - end
+#'  - end: The positions of the end sites of the corresponding region
 #'
 #' - width
 #'
-#' - strand
+#'  - strand: Strand
 #'
-#' - median.p
+#'  - median.p
 #'
 #' - median.meth.group1
 #'
@@ -482,7 +484,8 @@ NULL
 #'
 #' - pos: int Position
 #'
-#' - g1~g2: methylation rate data in groups, repeat 8 times.
+#' - g1~g2: methylation rate data in groups.
+#'
 #' Notice that there are "NaN" within the feature columns.
 #'
 #' Please check the vignette "metevalue" for details.

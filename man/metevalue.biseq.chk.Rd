@@ -12,13 +12,16 @@ metevalue.biseq.chk(
 )
 }
 \arguments{
-\item{input_filename_a}{metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns in pairs:
+\item{input_filename_a}{metilene input file path. This file is a sep (e.g. TAB) separated file with two key columns and several value columns:
 For exampe:
+\tabular{rrrrrrrr}{
+chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
 
-chr    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
+     - chr and pos are keys;
 
-chr and pos are keys;
-g1 g1 g2 g2 must be stored in pairs.}
+     - g1~g2: methylation rate data in groups.}
 
 \item{input_filename_b}{metilene input file path. This file should stored as a sep(e.g. TAB) separated file with two key columns and several value columns:
 The columns are (in order):
@@ -52,6 +55,15 @@ list(file_a, file_b, file_a_b) returns a list with three pr-handled data.frames 
 Check the BiSeq data format
 }
 \examples{
-data("demo_biseq_DMR")
-data("demo_biseq_methyrate")
+#data("demo_biseq_methyrate")
+#data("demo_biseq_DMR")
+#example_tempfiles = tempfile(c("demo_biseq_methyrate", "demo_biseq_DMR"))
+#tempdir()
+#write.table(demo_biseq_methyrate, file=example_tempfiles[1],row.names=FALSE,
+#            col.names=TRUE, quote=FALSE, sep='\t')
+#write.table(demo_biseq_DMR, file=example_tempfiles[2],
+#             sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+#### compute e-value and its adjustment ####
+#result = metevalue.biseq.chk(example_tempfiles[1],
+#                         example_tempfiles[2], bheader = TRUE)
 }

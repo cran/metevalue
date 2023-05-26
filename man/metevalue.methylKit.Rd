@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalue_data_methylKit.R
 \name{metevalue.methylKit}
 \alias{metevalue.methylKit}
-\title{Evalue of the methylKit data format}
+\title{Calculate E-value of the methylKit data format}
 \usage{
 metevalue.methylKit(
   methyrate,
@@ -13,7 +13,13 @@ metevalue.methylKit(
 )
 }
 \arguments{
-\item{methyrate}{is the data of methylation rates of each sites and group, the columns are (in order):
+\item{methyrate}{is the data of methylation rates of each sites and group. For example:
+\tabular{rrrrrrrr}{
+chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
+The columns are (in order):
+
     - chr: Chromosome
 
     - pos: int Position
@@ -21,6 +27,7 @@ metevalue.methylKit(
     - g1~g2: methylation rate data in groups}
 
 \item{methylKit.output}{is the output data with e-value of each region
+
     - chr: Chromosome
 
     - start: The positions of the start sites of the corresponding region
@@ -67,19 +74,18 @@ a dataframe, the columns are (in order):
     - e_value: The e-value of the corresponding region
 }
 \description{
-Perform the Evaluation for the BiSeq data.
+Calculate E-value of the methylKit data format
 }
 \examples{
-#### methylKit example ####
 data(demo_methylkit_methyrate)
 data(demo_methylkit_met_all)
-# example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-# tempdir()
-# write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-#       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-# write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-#       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-# result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-#       bheader = TRUE)
-# str(result)
+## example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
+## tempdir()
+## write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
+##       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
+## write.table(demo_methylkit_met_all, file=example_tempfiles[2],
+##       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
+## result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
+##       bheader = TRUE)
+## str(result)
 }

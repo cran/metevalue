@@ -2,7 +2,7 @@
 % Please edit documentation in R/evalue_main.R
 \name{varevalue.metilene}
 \alias{varevalue.metilene}
-\title{Evalue of the Metilene data}
+\title{Calculate E-value of the Metilene data}
 \usage{
 varevalue.metilene(
   a,
@@ -14,10 +14,11 @@ varevalue.metilene(
 )
 }
 \arguments{
-\item{a}{A data.frame object, the columns should be (in order):
-
-chr    pos    g1    g1    g1    g1    g1    g1    g1    g1    g2    g2    g2    g2    g2    g2    g2    g2
-
+\item{a}{A data.frame object:
+\tabular{rrrrrrrr}{
+ chr    \tab  pos     \tab   g1    \tab ...  \tab  g1 \tab  g2 \tab ... \tab g2 \cr
+chr1 \tab  1    \tab  0.1 \tab  ... \tab   0.1\tab  0.2\tab ... \tab 0.2\cr
+}
 i.e two key columns (chrom, pos) with several value columns in groups.}
 
 \item{b}{A data.frame object stores the data, the columns are (in order):
@@ -76,19 +77,14 @@ a dataframe, the columns are (in order):
     - e_value: The e-value of the corresponding region
 }
 \description{
-Perform the Evaluation for the Metilene data. The data file could be pre-handled by the evalue.metilene.chk function.
+The data file could be pre-handled by the evalue.metilene.chk function.
 }
 \examples{
-#### methylKit example ####
-data(demo_methylkit_methyrate)
-data(demo_methylkit_met_all)
-# example_tempfiles = tempfile(c("rate_combine", "methylKit_DMR_raw"))
-# tempdir()
-# write.table(demo_methylkit_methyrate, file=example_tempfiles[1],
-#       row.names=FALSE, col.names=TRUE, quote=FALSE, sep='\t')
-# write.table (demo_methylkit_met_all, file=example_tempfiles[2],
-#       sep ="\t", row.names =FALSE, col.names =TRUE, quote =FALSE)
-# result = metevalue.methylKit(example_tempfiles[1], example_tempfiles[2],
-#       bheader = TRUE)
-# str(result)
+#data(demo_metilene_input)
+#data(demo_metilene_out)
+#result = evalue_buildin_var_fmt_nm(demo_metilene_input, demo_metilene_out, method="metilene")
+#result = list(a = result$a, 
+#              b = result$b, 
+#              a_b = evalue_buildin_sql(result$a, result$b, method="metilene"))
+#result = varevalue.metilene(result$a, result$b, result$a_b)
 }
